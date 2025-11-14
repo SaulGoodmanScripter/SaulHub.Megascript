@@ -53,7 +53,7 @@ local Window = Library:Window({
     },
     CloseUIButton = {
         Enabled = true,
-        Text = "what does this\nbutton do"
+        Text = "Close/open"
     }
 })
 
@@ -295,7 +295,16 @@ local Tab = Window:Tab({Title = "Client", Icon = "user"}) do
         end
     })
 end
+local Tab = Windoe:Tab({Title = "99 night in the forest",
+Icon = "game"}) do
+Tab:Section({Title = "Скрипты для 99 ночей в лесу"})
+loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VWExtra/main/NightsInTheForest.lua", true))()
+end
 
+Tab:Label({
+Title = "Voidware"
+Desc = "Один из самых лучших скриптов"
+Callback =function()
 local Tab = Window:Tab({Title = "credits", Icon = "code"}) do
     Tab:Section({Title = "Script Made By @Saul_Hub"})
     
