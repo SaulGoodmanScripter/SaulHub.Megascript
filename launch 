@@ -1,6 +1,10 @@
 local GameId = game.GameId
 local Players = game:GetService("Players")
 
+repeat task.wait() until game:IsLoaded() and Players.LocalPlayer
+
+plr = Players.LocalPlayer
+
 if GameId == 7326934954 then
     print("🎮 Обнаружена: 99 ночей в лесу")
     loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/nightsintheforest2.lua", true))()
