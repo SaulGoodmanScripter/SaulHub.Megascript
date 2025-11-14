@@ -1,0 +1,212 @@
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local SoundService = game:GetService("SoundService")
+local player = Players.LocalPlayer
+
+-- Удаляем старый GUI если существует
+if game:GetService("CoreGui"):FindFirstChild("DupeGUI") then
+    game:GetService("CoreGui").DupeGUI:Destroy()
+end
+if player:FindFirstChild("PlayerGui"):FindFirstChild("DupeGUI") then
+    player.PlayerGui.DupeGUI:Destroy()
+end
+
+-- Создаем интерфейс
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "DupeGUI"
+screenGui.ResetOnSpawn = false
+screenGui.IgnoreGuiInset = true
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.Parent = game:GetService("CoreGui")
+
+-- Звук клика
+local clickSound = Instance.new("Sound")
+clickSound.SoundId = "rbxassetid://5419098671"
+clickSound.Volume = 0.5
+clickSound.Parent = SoundService
+
+local function playClick()
+    clickSound:Play()
+end
+
+-- Главный фрейм
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 580, 0, 380)
+mainFrame.Position = UDim2.new(0.5, -290, 0.5, -190)
+mainFrame.BackgroundColor3 = Color3.fromRGB(40, 0, 60)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = mainFrame
+
+-- Тень
+local shadow = Instance.new("ImageLabel")
+shadow.BackgroundTransparency = 1
+shadow.Size = UDim2.new(1, 20, 1, 20)
+shadow.Position = UDim2.new(0, -10, 0, -10)
+shadow.Image = "rbxassetid://1316045217"
+shadow.ImageColor3 = Color3.fromRGB(100, 0, 150)
+shadow.ImageTransparency = 0.6
+shadow.ScaleType = Enum.ScaleType.Slice
+shadow.SliceCenter = Rect.new(10, 10, 118, 118)
+shadow.Parent = mainFrame
+
+-- Верхняя панель
+local topBar = Instance.new("Frame")
+topBar.Name = "TopBar"
+topBar.Size = UDim2.new(1, 0, 0, 38)
+topBar.BackgroundColor3 = Color3.fromRGB(60, 0, 90)
+topBar.BorderSizePixel = 0
+topBar.Parent = mainFrame
+
+local topBarCorner = Instance.new("UICorner")
+topBarCorner.CornerRadius = UDim.new(0, 8)
+topBarCorner.Parent = topBar
+
+-- Заголовок
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -100, 1, 0)
+title.Position = UDim2.new(0, 12, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "Saul Hub"
+title.TextColor3 = Color3.fromRGB(220, 180, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 16
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = topBar
+
+-- Функция создания кнопок
+local function createIconButton(offset, text)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0, 30, 0, 30)
+    btn.Position = UDim2.new(1, offset, 0.5, -15)
+    btn.BackgroundColor3 = Color3.fromRGB(80, 0, 120)
+    btn.Text = text
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 14
+    btn.AutoButtonColor = true
+    
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(1, 0)
+    corner.Parent = btn
+    
+    return btn
+end
+
+-- Кнопка закрытия
+local closeBtn = createIconButton(-40, "✕")
+closeBtn.Parent = topBar
+
+closeBtn.MouseButton1Click:Connect(function()
+    playClick()
+    TweenService:Create(mainFrame, TweenInfo.new(0.3), {Transparency = 1}):Play()
+    wait(0.3)
+    screenGui:Destroy()
+end)
+
+-- Кнопка сворачивания
+local minimizeBtn = createIconButton(-80, "–")
+minimizeBtn.Parent = topBar
+
+local minimized = false
+local savedState = {}
+
+minimizeBtn.MouseButton1Click:Connect(function()
+    playClick()
+    minimized = not minimized
+
+    for _, child in ipairs(mainFrame:GetChildren()) do
+        if child ~= topBar and child:IsA("GuiObject") then
+            if minimized then
+                savedState[child] = child.Visible
+                child.Visible = false
+            else
+                if savedState[child] ~= nil then
+                    child.Visible = savedState[child]
+                end
+            end
+        end
+    end
+
+    local targetSize = minimized and UDim2.new(0, 200, 0, 50) or UDim2.new(0, 580, 0, 380)
+    TweenService:Create(mainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {
+        Size = targetSize
+    }):Play()
+end)
+
+-- Панель вкладок
+local tabPanel = Instance.new("Frame")
+tabPanel.Position = UDim2.new(0, 0, 0, 38)
+tabPanel.Size = UDim2.new(0, 150, 1, -38)
+tabPanel.BackgroundColor3 = Color3.fromRGB(50, 0, 75)
+tabPanel.BorderSizePixel = 0
+tabPanel.Parent = mainFrame
+
+local tabCorner = Instance.new("UICorner")
+tabCorner.CornerRadius = UDim.new(0, 8)
+tabCorner.Parent = tabPanel
+
+-- Контентная область
+local contentFrame = Instance.new("Frame")
+contentFrame.Position = UDim2.new(0, 150, 0, 38)
+contentFrame.Size = UDim2.new(1, -150, 1, -38)
+contentFrame.BackgroundColor3 = Color3.fromRGB(60, 0, 90)
+contentFrame.BackgroundTransparency = 0.05
+contentFrame.BorderSizePixel = 0
+contentFrame.Parent = mainFrame
+
+local contentCorner = Instance.new("UICorner")
+contentCorner.CornerRadius = UDim.new(0, 8)
+contentCorner.Parent = contentFrame
+
+-- Список вкладок
+local tabs = {"info", "Uneversal", "99-Night-in-the-Forset", "Grow_a_garden", "SlapBattles", "steal_a_brainrot"}
+
+-- Создаем вкладки
+local tabButtons, tabFrames = {}, {}
+local tabIndex = 0
+
+for _, tabName in ipairs(tabs) do
+    tabIndex += 1
+    
+    -- Кнопка вкладки
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, -20, 0, 36)
+    btn.Position = UDim2.new(0, 10, 0, (tabIndex - 1) * 42 + 10)
+    btn.Text = tabName
+    btn.BackgroundColor3 = Color3.fromRGB(70, 0, 105)
+    btn.TextColor3 = Color3.fromRGB(220, 180, 255)
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 13
+    btn.AutoButtonColor = true
+    btn.Parent = tabPanel
+    
+    local btnCorner = Instance.new("UICorner")
+    btnCorner.CornerRadius = UDim.new(0, 6)
+    btnCorner.Parent = btn
+    
+    table.insert(tabButtons, btn)
+    
+    -- Фрейм контента для вкладки
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 1, 0)
+    frame.BackgroundTransparency = 1
+    frame.Visible = tabName == "Fruits"
+    frame.Parent = contentFrame
+    
+    tabFrames[tabName] = frame
+    
+    -- Обработчик клика по вкладке
+    btn.MouseButton1Click:Connect(function()
+        for _, f in pairs(tabFrames) do f.Visible = false end
+        for _, b in pairs(tabButtons) do b.BackgroundColor3 = Color3.fromRGB(70, 0, 105) end
+        frame.Visible = true
+        btn.BackgroundColor3 = Color3.fromRGB(100, 0, 150)
+        playClick()
+    end)
+end
