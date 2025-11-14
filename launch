@@ -1,37 +1,351 @@
-local GameId = game.GameId
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local LocalPlayer = Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Debris = game:GetService("Debris")
 local TweenService = game:GetService("TweenService")
-local HttpService = game:GetService("HttpService")
-local UI = {}
+local UserInputService = game:GetService("UserInputService")
+local SoundService = game:GetService("SoundService")
+local CollectionService = game:GetService("CollectionService")
 
-repeat task.wait() until game:IsLoaded() and Players.LocalPlayer
+local btnClickSound = Instance.new("Sound")
+btnClickSound.SoundId = "rbxassetid://12221967"
+btnClickSound.Volume = 0.5
+btnClickSound.Parent = SoundService
 
-plr = Players.LocalPlayer
--- Основная функция создания UI
-local function CreateMainUI()
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Parent = player:WaitForChild("PlayerGui")
+local sliderSound = Instance.new("Sound")
+sliderSound.SoundId = "rbxassetid://12221976"
+sliderSound.Volume = 0.3
+sliderSound.Parent = SoundService
 
-    local mainFrame = Instance.new("Frame")
-    mainFrame.Size = UDim2.new(0, 400, 0, 500)
-    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(40, 0, 60)
-    mainFrame.Parent = screenGui
+local dropdownSound = Instance.new("Sound")
+dropdownSound.SoundId = "rbxassetid://12221831"
+dropdownSound.Volume = 0.4
+dropdownSound.Parent = SoundService
 
-local mainCorner = Instance.new("UICorner")
-    mainCorner.CornerRadius = UDim.new(0, 12)
-    mainCorner.Parent = mainFrame
+local toggleSound = Instance.new("Sound")
+toggleSound.SoundId = "rbxassetid://12221976"
+toggleSound.Volume = 0.4
+toggleSound.Parent = SoundService
 
+local function btnclick()
+    btnClickSound:Play()
+end
 
---заголовок 
-local title = Instance.new("TextLabel")
-    title.Size = UDim2.new(1, 0, 0, 50)
-    title.BackgroundTransparency = 1
-    title.Text = "⚖️Saul HUB"
-    title.TextColor3 = Color3.fromRGB(220, 180, 255)
-    title.Font = Enum.Font.GothamBold
-    title.TextSize = 20
-    title.Parent = mainFrame
+local function slidersound()
+    sliderSound:Play()
+end
+
+local function dropdownsound()
+    dropdownSound:Play()
+end
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2zu/OPEN-SOURCE-UI-ROBLOX/refs/heads/main/X2ZU%20UI%20ROBLOX%20OPEN%20SOURCE/DummyUi-leak-by-x2zu/fetching-main/Tools/Framework.luau"))()
+local Window = Library:Window({
+    Title = "Saul Hub",
+    Desc = "Hello, I'm Saul Goodman. Did you know that you have rights?",
+    Icon = 90660528092370,
+    Theme = "Dark",
+    Config = {
+        Keybind = Enum.KeyCode.LeftControl,
+        Size = UDim2.new(0, 500, 0, 300)
+    },
+    CloseUIButton = {
+        Enabled = true,
+        Text = "what does this\nbutton do"
+    }
+})
+
+-- Sidebar Vertical Separator
+local SidebarLine = Instance.new("Frame")
+SidebarLine.Size = UDim2.new(0, 1, 1, 0)
+SidebarLine.Position = UDim2.new(0, 140, 0, 0)
+SidebarLine.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+SidebarLine.BorderSizePixel = 0
+SidebarLine.ZIndex = 5
+SidebarLine.Name = "SidebarLine"
+SidebarLine.Parent = game:GetService("CoreGui")
+
+local player = game.Players.LocalPlayer
+settings().Physics.AllowSleep = false
+settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Disabled
+
+local function fly()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/OBFhm5650lol/F/refs/heads/main/F", true))()
+end
+
+local noclipEnabled = false
+local noclipConnection
+
+local infJumpEnabled = false
+local jumpConnection
+
+local AntiTripSystem = {
+    Enabled = false,
+    Connections = {
+        heartbeat = nil,
+        characterAdded = nil
+    }
+}
+
+local function toggleAntiTrip()
+    if AntiTripSystem.Enabled then
+        AntiTripSystem.Enabled = false
+        if AntiTripSystem.Connections.heartbeat then
+            AntiTripSystem.Connections.heartbeat:Disconnect()
+            AntiTripSystem.Connections.heartbeat = nil
+        end
+        
+        if AntiTripSystem.Connections.characterAdded then
+            AntiTripSystem.Connections.characterAdded:Disconnect()
+            AntiTripSystem.Connections.characterAdded = nil
+        end
+    else
+        AntiTripSystem.Enabled = true
+        local player = game.Players.LocalPlayer
+        
+        local function monitorHumanoid(humanoid)
+            if AntiTripSystem.Connections.heartbeat then
+                AntiTripSystem.Connections.heartbeat:Disconnect()
+            end
+            
+            AntiTripSystem.Connections.heartbeat = game:GetService("RunService").Heartbeat:Connect(function()
+                if not AntiTripSystem.Enabled or not humanoid or not humanoid.Parent then
+                    if AntiTripSystem.Connections.heartbeat then
+                        AntiTripSystem.Connections.heartbeat:Disconnect()
+                        AntiTripSystem.Connections.heartbeat = nil
+                    end
+                    return
+                end
+                
+                local state = humanoid:GetState()
+                if state == Enum.HumanoidStateType.Seated or
+                   state == Enum.HumanoidStateType.FallingDown or
+                   state == Enum.HumanoidStateType.Ragdoll then
+                    humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+                end
+                
+                if humanoid.Sit then
+                    humanoid.Sit = false
+                end
+            end)
+        end
+        
+        if player.Character then
+            local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                monitorHumanoid(humanoid)
+            end
+        end
+        
+        if AntiTripSystem.Connections.characterAdded then
+            AntiTripSystem.Connections.characterAdded:Disconnect()
+        end
+        
+        AntiTripSystem.Connections.characterAdded = player.CharacterAdded:Connect(function(character)
+            if AntiTripSystem.Enabled then
+                local humanoid = character:WaitForChild("Humanoid")
+                monitorHumanoid(humanoid)
+            end
+        end)
+    end
+end
+
+local Tab = Window:Tab({Title = "Client", Icon = "user"}) do
+    Tab:Section({Title = "Character Controls"})
+    
+    Tab:Slider({
+        Title = "WalkSpeed",
+        Desc = "Adjust your character's movement speed",
+        Min = 16,
+        Max = 200,
+        Rounding = 0,
+        Value = 16,
+        Callback = function(val)
+            local character = LocalPlayer.Character
+            if character and character:FindFirstChildOfClass("Humanoid") then
+                character:FindFirstChildOfClass("Humanoid").WalkSpeed = val
+            end
+            slidersound()
+        end
+    })
+    
+    Tab:Slider({
+        Title = "JumpPower",
+        Desc = "Adjust your character's jump height",
+        Min = 50,
+        Max = 500,
+        Rounding = 0,
+        Value = 50,
+        Callback = function(val)
+            local character = LocalPlayer.Character
+            if character and character:FindFirstChildOfClass("Humanoid") then
+                character:FindFirstChildOfClass("Humanoid").JumpPower = val
+            end
+            slidersound()
+        end
+    })
+    
+    Tab:Button({
+        Title = "Reset",
+        Desc = "Reset walkspeed and jumppower to default",
+        Callback = function()
+            btnclick()
+            local character = LocalPlayer.Character
+            if character and character:FindFirstChildOfClass("Humanoid") then
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                humanoid.WalkSpeed = 16
+                humanoid.JumpPower = 50
+            end
+        end
+    })
+    
+    Tab:Section({Title = "Movement"})
+    
+    Tab:Toggle({
+        Title = "Noclip",
+        Desc = "Walk through walls",
+        Value = false,
+        Callback = function(v)
+            noclipEnabled = v
+            local character = LocalPlayer.Character
+            
+            if v then
+                if character then
+                    for _, part in pairs(character:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false
+                        end
+                    end
+                end
+                
+                if noclipConnection then
+                    noclipConnection:Disconnect()
+                end
+                
+                noclipConnection = RunService.Stepped:Connect(function()
+                    if noclipEnabled and LocalPlayer.Character then
+                        for _, part in pairs(LocalPlayer.Character:GetDescendants()) do
+                            if part:IsA("BasePart") then
+                                part.CanCollide = false
+                            end
+                        end
+                    end
+                end)
+            else
+                if noclipConnection then
+                    noclipConnection:Disconnect()
+                    noclipConnection = nil
+                end
+                
+                if character then
+                    for _, part in pairs(character:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = true
+                        end
+                    end
+                end
+            end
+        end
+    })
+
+    Tab:Button({
+        Title = "Fly",
+        Desc = "Opens the flygui",
+        Callback = function()
+            btnclick()
+            fly()
+        end
+    })
+    
+    Tab:Toggle({
+        Title = "Infinite Jump",
+        Desc = "Jump infinitely in the air",
+        Value = false,
+        Callback = function(v)
+            infJumpEnabled = v
+            
+            if v then
+                jumpConnection = UserInputService.JumpRequest:Connect(function()
+                    if infJumpEnabled then
+                        local character = LocalPlayer.Character
+                        if character and character:FindFirstChildOfClass("Humanoid") then
+                            character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
+                        end
+                    end
+                end)
+            else
+                if jumpConnection then
+                    jumpConnection:Disconnect()
+                    jumpConnection = nil
+                end
+            end
+        end
+    })
+    
+    Tab:Section({Title = "Utilities"})
+    
+    Tab:Button({
+        Title = "Toggle AntiTrip",
+        Desc = "Prevent being tripped, ragdolled, or seated",
+        Callback = function()
+            toggleAntiTrip()
+            btnclick()
+        end
+    })
+end
+
+local Tab = Window:Tab({Title = "credits", Icon = "code"}) do
+    Tab:Section({Title = "Script Made By @Saul_Hub"})
+    
+    Tab:Label({
+        Title = "Saul",
+        Desc = "Создатель скрипта.Telegram channel:\n@SaulGoodmanScript",
+    })
+
+    Tab:Button({
+        Title = "Copy Telegram",
+        Desc = "Copy @SaulGoodmanScript to clipboard",
+        Callback = function()
+            setclipboard("https://t.me/SaulGoodmanScript")
+            Window:Notify({
+                Title = "Copied",
+                Desc = "Telegram channel copied to clipboard",
+                Time = 4
+            })
+        end
+    })
+    
+    Tab:Label({
+        Title = "Lori script", 
+        Desc = "partner",
+    })
+
+    Tab:Button({
+        Title = "📋 Copy Telegram",
+        Desc = nil,
+        Callback = function()
+            setclipboard("https://t.me/loriscript")
+            Window:Notify({
+                Title = "Copied",
+                Desc = "Lori script Telegram copied",
+                Time = 3
+            })
+        end
+    })
+
+    Tab:Label({
+        Title = "Lori script", 
+        Desc = "he made superring or.. it could be yumm",
+    })
+end
+
+Window:Notify({
+    Title = "script made by Saul_Hub",
+    Desc = "Enter Text... (ಠ⁠ ‌⁠ʖ⁠ ⁠ಠ)",
+    Time = 5
+})
     
 
 
