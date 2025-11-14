@@ -1,7 +1,8 @@
+
+
 if GameId == 7326934954 then
     print("🎮 Обнаружена: 99 ночей в лесу")
-    -- ЗАГРУЖАЕМ скрипт, а не просто ссылку
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VWExtra/main/NightsInTheForest.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/nightsintheforest2.lua", true))()
     
 elseif GameId == 12688469563406 then
     print("🎮 Обнаружена: Вырасти сад")
