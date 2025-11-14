@@ -74,7 +74,7 @@ else
         Duration = 5,
         Icon = "rbxassetid://6724775782"
     })
-end
+end.
 
 
 
