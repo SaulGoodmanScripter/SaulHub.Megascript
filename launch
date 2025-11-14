@@ -295,12 +295,20 @@ local Tab = Window:Tab({Title = "Client", Icon = "user"}) do
         end
     })
 end
-local Tab = Window:Tab({Title = "99 night in the forest",
-Icon = "game"}) do
-Tab:Section({Title = "Скрипты для 99 ночей в лесу"})
-loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VWExtra/main/NightsInTheForest.lua", true))()
+
+
+-- Вкладка для 99 ночей в лесу
+local Tab = Window:Tab({Title = "99 night in the forest", Icon = "game"}) do
+    Tab:Section({Title = "Скрипты для 99 ночей в лесу"})
+    
+    Tab:Button({
+        Title = "Voidware", 
+        Desc = "Один из самых лучших скриптов",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VWExtra/main/NightsInTheForest.lua", true))()
+        end
+    })
 end
-})
 
 Tab:Label({
 Title = "Voidware"
