@@ -1,20 +1,40 @@
 local GameId = game.GameId
 local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local HttpService = game:GetService("HttpService")
+local UI = {}
 
 repeat task.wait() until game:IsLoaded() and Players.LocalPlayer
 
 plr = Players.LocalPlayer
+-- Основная функция создания UI
+local function CreateMainUI()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Parent = player:WaitForChild("PlayerGui")
 
-if GameId == 7326934954 then
-    print("🎮 Обнаружена: 99 ночей в лесу")
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/nightsintheforest2.lua", true))()
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Size = UDim2.new(0, 400, 0, 500)
+    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(40, 0, 60)
+    mainFrame.Parent = screenGui
+
+local mainCorner = Instance.new("UICorner")
+    mainCorner.CornerRadius = UDim.new(0, 12)
+    mainCorner.Parent = mainFrame
+
+
+--заголовок 
+local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 50)
+    title.BackgroundTransparency = 1
+    title.Text = "⚖️Saul HUB"
+    title.TextColor3 = Color3.fromRGB(220, 180, 255)
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 20
+    title.Parent = mainFrame
     
-elseif GameId == 12688469563406 then
-    print("🎮 Обнаружена: Вырасти сад")
-    -- ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА РЕАЛЬНЫЙ СКРИПТ ДЛЯ ЭТОЙ ИГРЫ
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/growagarden.lua", true))()
-    
-else
-    print("⚠️ Игра не поддерживается. GameId:", GameId)
-    return
-end
+
+
+
+
+
