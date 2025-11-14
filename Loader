@@ -28,7 +28,7 @@ if GameList[GameId] then
     -- Загружаем основной Script Hub с обработкой ошибок
     local success, result = pcall(function()
         -- Оригинальный URL с %20
-        local scriptUrl = "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/d1aa40947101776b1eeb6e2933235085003c9426/launch%20"
+        local scriptUrl = "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/launch"
         return game:HttpGet(scriptUrl, true)
     end)
     
