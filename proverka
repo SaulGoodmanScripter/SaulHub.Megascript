@@ -358,7 +358,7 @@ local Tab = Window:Tab({Title = "99 nights in the forest", Icon = "circle"}) do
         Callback = function()
             btnclick()
             farm_day_and_diamond()
-            
+           end 
     })
 end
 
