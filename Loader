@@ -1,1 +1,37 @@
-loader script
+local GameId = game.GameId
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local HttpService = game:GetService("HttpService")
+
+repeat task.wait() until game:IsLoaded() and Players.LocalPlayer
+
+plr = Players.LocalPlayer
+
+local isSupport = nil
+local GameList = { 
+    [79546208627805] = true,  -- 99 ночей в лесу (запятая вместо точки)
+    [12688469563406] = true,  -- вырасти сад 
+}
+
+-- Проверка поддержки игры
+if GameList[GameId] then  
+    print("🎮 Игра поддерживается! Загружаем скрипт...")
+    
+    -- Загружаем основной Script Hub
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/.../script_hub.lua"))()
+    
+else
+    print("⚠️ Эта игра не поддерживается")
+    
+    -- Можно показать уведомление
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Script Hub",
+        Text = "Эта игра не поддерживается",
+        Duration = 5,
+        Icon = "rbxassetid://6724775782"
+    })
+end
+
+
+
+
