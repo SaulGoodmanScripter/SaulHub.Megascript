@@ -1,0 +1,11 @@
+if GameId == 79546208627805 then
+    targetScript = "99_nights"
+    print("🎮 Обнаружена: 99 ночей в лесу")
+    https://raw.githubusercontent.com/VapeVoidware/VWExtra/main/NightsInTheForest.lua
+elseif GameId == 12688469563406 then
+    targetScript = "grow_garden" 
+    print("🎮 Обнаружена: Вырасти сад")
+else
+    print("⚠️ Игра не поддерживается. GameId:", GameId)
+    return  -- Просто выходим если игра не поддерживается
+end
