@@ -295,11 +295,12 @@ local Tab = Window:Tab({Title = "Client", Icon = "user"}) do
         end
     })
 end
-local Tab = Windoe:Tab({Title = "99 night in the forest",
+local Tab = Window:Tab({Title = "99 night in the forest",
 Icon = "game"}) do
 Tab:Section({Title = "Скрипты для 99 ночей в лесу"})
 loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VWExtra/main/NightsInTheForest.lua", true))()
 end
+})
 
 Tab:Label({
 Title = "Voidware"
