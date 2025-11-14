@@ -9,7 +9,7 @@ plr = Players.LocalPlayer
 
 local isSupport = nil
 local GameList = { 
-    [7326934954] = true,  -- 99 ночей в лесу (запятая вместо точки)
+    [7326934954] = true,  -- 99 ночей в лесу
     [12688469563406] = true,  -- вырасти сад 
 }
 
@@ -17,13 +17,57 @@ local GameList = {
 if GameList[GameId] then  
     print("🎮 Игра поддерживается! Загружаем скрипт...")
     
-    -- Загружаем основной Script Hub
-    loadstring(game.HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/d1aa40947101776b1eeb6e2933235085003c9426/launch%20"))()
+    -- Показываем уведомление о загрузке
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Script Hub",
+        Text = "Загрузка скрипта...",
+        Duration = 3,
+        Icon = "rbxassetid://6724775782"
+    })
+    
+    -- Загружаем основной Script Hub с обработкой ошибок
+    local success, result = pcall(function()
+        -- Оригинальный URL с %20
+        local scriptUrl = "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/d1aa40947101776b1eeb6e2933235085003c9426/launch%20"
+        return game:HttpGet(scriptUrl, true)
+    end)
+    
+    if success then
+        local loadSuccess, loadResult = pcall(function()
+            loadstring(result)()
+        end)
+        
+        if loadSuccess then
+            print("✅ Script Hub успешно загружен!")
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "Script Hub",
+                Text = "Успешно загружен!",
+                Duration = 3,
+                Icon = "rbxassetid://6724775782"
+            })
+        else
+            warn("❌ Ошибка при выполнении скрипта: " .. tostring(loadResult))
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "Script Hub - Ошибка",
+                Text = "Ошибка выполнения: " .. tostring(loadResult),
+                Duration = 5,
+                Icon = "rbxassetid://6724775782"
+            })
+        end
+    else
+        warn("❌ Ошибка при загрузке скрипта: " .. tostring(result))
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Script Hub - Ошибка",
+            Text = "Не удалось загрузить скрипт",
+            Duration = 5,
+            Icon = "rbxassetid://6724775782"
+        })
+    end
     
 else
     print("⚠️ Эта игра не поддерживается")
     
-    -- Можно показать уведомление
+    -- Показываем уведомление
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Script Hub",
         Text = "Эта игра не поддерживается",
