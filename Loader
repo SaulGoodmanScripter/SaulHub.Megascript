@@ -18,7 +18,7 @@ if GameList[GameId] then
     print("🎮 Игра поддерживается! Загружаем скрипт...")
     
     -- Загружаем основной Script Hub
-    loadstring(game.HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/f269c487b7251d8520e11890db3c814ec9ac0bc7/launch%20"))()
+    loadstring(game.HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/d1aa40947101776b1eeb6e2933235085003c9426/launch%20"))()
     
 else
     print("⚠️ Эта игра не поддерживается")
