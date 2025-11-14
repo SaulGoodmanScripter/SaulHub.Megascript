@@ -296,6 +296,23 @@ local Tab = Window:Tab({Title = "Client", Icon = "user"}) do
     })
 end
 
+local Tab = Window:Tab({Title = 99 night in the forest",
+Icon = "code"}) do
+Tab:Section({Title = "scripts for 99 nights in the forest"})
+
+Tab:Button ({
+Title = "Farm day and diamond",
+Desc = "Фарм дней и алмазов,скрипт лутает крепость автоматически каждые 20 мин",
+Callback = function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/Gfarm'))()
+Window:Notify({
+Title = "Start ",
+Desc = "farm starting",
+time = 5
+})
+end
+})
+
 
 local Tab = Window:Tab({Title = "credits", Icon = "code"}) do
     Tab:Section({Title = "Script Made By @Saul_Hub"})
