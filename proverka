@@ -1,0 +1,148 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+-- 📱 ОСНОВНАЯ ФУНКЦИЯ СОЗДАНИЯ UI
+local function CreateMainUI()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Parent = player:WaitForChild("PlayerGui")
+    
+    -- Главное окно
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Size = UDim2.new(0, 400, 0, 500)
+    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(40, 0, 60)
+    mainFrame.Parent = screenGui
+    
+    local mainCorner = Instance.new("UICorner")
+    mainCorner.CornerRadius = UDim.new(0, 12)
+    mainCorner.Parent = mainFrame
+    
+    -- Заголовок
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 50)
+    title.BackgroundTransparency = 1
+    title.Text = "🎮 MY SCRIPT HUB"
+    title.TextColor3 = Color3.fromRGB(220, 180, 255)
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 20
+    title.Parent = mainFrame
+    
+    -- Контейнер для вкладок
+    local tabsContainer = Instance.new("Frame")
+    tabsContainer.Size = UDim2.new(1, -20, 0, 40)
+    tabsContainer.Position = UDim2.new(0, 10, 0, 50)
+    tabsContainer.BackgroundTransparency = 1
+    tabsContainer.Parent = mainFrame
+    
+    local tabsLayout = Instance.new("UIListLayout")
+    tabsLayout.FillDirection = Enum.FillDirection.Horizontal
+    tabsLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    tabsLayout.Parent = tabsContainer
+    
+    -- Фрейм для контента
+    local contentFrame = Instance.new("Frame")
+    contentFrame.Size = UDim2.new(1, -20, 1, -120)
+    contentFrame.Position = UDim2.new(0, 10, 0, 100)
+    contentFrame.BackgroundTransparency = 1
+    contentFrame.Parent = mainFrame
+    
+    -- 📑 КОЛЛЕКЦИИ ДЛЯ УПРАВЛЕНИЯ
+    local tabButtons = {}
+    local tabFrames = {}
+    
+    -- 🎵 ФУНКЦИЯ ЗВУКА КЛИКА
+    local function playClick()
+        -- Можно добавить звук позже
+    end
+    
+    -- 🎯 ФУНКЦИЯ СОЗДАНИЯ ВКЛАДКИ
+    local function CreateTab(tabName, items)
+        -- Кнопка вкладки
+        local btn = Instance.new("TextButton")
+        btn.Size = UDim2.new(0, 80, 1, 0)
+        btn.BackgroundColor3 = Color3.fromRGB(70, 0, 105)
+        btn.TextColor3 = Color3.fromRGB(220, 180, 255)
+        btn.Text = tabName
+        btn.Font = Enum.Font.GothamMedium
+        btn.TextSize = 14
+        btn.Parent = tabsContainer
+        
+        local btnCorner = Instance.new("UICorner")
+        btnCorner.CornerRadius = UDim.new(0, 6)
+        btnCorner.Parent = btn
+        
+        table.insert(tabButtons, btn)
+        
+        -- Фрейм контента для вкладки
+        local frame = Instance.new("Frame")
+        frame.Size = UDim2.new(1, 0, 1, 0)
+        frame.BackgroundTransparency = 1
+        frame.Visible = #tabButtons == 1 -- Первая вкладка активна
+        frame.Parent = contentFrame
+        
+        tabFrames[tabName] = frame
+        
+        -- Обработчик клика по вкладке
+        btn.MouseButton1Click:Connect(function()
+            for _, f in pairs(tabFrames) do 
+                f.Visible = false 
+            end
+            for _, b in pairs(tabButtons) do 
+                b.BackgroundColor3 = Color3.fromRGB(70, 0, 105) 
+            end
+            frame.Visible = true
+            btn.BackgroundColor3 = Color3.fromRGB(100, 0, 150)
+            playClick()
+        end)
+        
+        -- Активируем первую вкладку
+        if #tabButtons == 1 then
+            btn.BackgroundColor3 = Color3.fromRGB(100, 0, 150)
+        end
+        
+        -- 📝 СОЗДАЕМ ЭЛЕМЕНТЫ ВКЛАДКИ
+        if items then
+            for i, item in ipairs(items) do
+                local itemBtn = Instance.new("TextButton")
+                itemBtn.Size = UDim2.new(1, -40, 0, 44)
+                itemBtn.Position = UDim2.new(0, 20, 0, (i - 1) * 50 + 10)
+                itemBtn.BackgroundColor3 = Color3.fromRGB(80, 0, 120)
+                itemBtn.TextColor3 = Color3.fromRGB(220, 180, 255)
+                itemBtn.Text = item
+                itemBtn.Font = Enum.Font.GothamMedium
+                itemBtn.TextSize = 14
+                itemBtn.Parent = frame
+                
+                local itemCorner = Instance.new("UICorner")
+                itemCorner.CornerRadius = UDim.new(0, 6)
+                itemCorner.Parent = itemBtn
+
+                itemBtn.MouseButton1Click:Connect(function()
+                    playClick()
+                    print("Нажата кнопка:", item, "во вкладке:", tabName)
+                    -- Здесь будет логика для каждой кнопки
+                end)
+            end
+        end
+        
+        return frame
+    end
+    
+    -- 🎮 ВОЗВРАЩАЕМ ФУНКЦИИ ДЛЯ УПРАВЛЕНИЯ
+    return {
+        CreateTab = CreateTab,
+        ScreenGui = screenGui,
+        TabFrames = tabFrames
+    }
+end
+
+-- 🚀 СОЗДАЕМ UI И ВКЛАДКИ
+local UI = CreateMainUI()
+
+-- 📑 ДОБАВЛЯЕМ БАЗОВЫЕ ВКЛАДКИ
+UI.CreateTab("Главная", {"Авто-фарм", "Телепорты", "Анти-АФК"})
+UI.CreateTab("Игрок", {"Скорость", "Прыжок", "Ночное зрение"})
+UI.CreateTab("Визуал", {"ESP", "Трейсеры", "Эффекты"})
+
+print("✅ UI успешно создан!")
