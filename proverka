@@ -75,7 +75,7 @@ SidebarLine.Parent = game:GetService("CoreGui")
 --Загружаем скрипты
 local function farm_day_and_diamond()
 
-loadstring(game:HttpGet('https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/Gfarm'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/launch'))()
 end
 --===========================================
 local function fly()
