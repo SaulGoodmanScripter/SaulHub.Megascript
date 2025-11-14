@@ -1,4 +1,5 @@
-
+local GameId = game.GameId
+local Players = game:GetService("Players")
 
 if GameId == 7326934954 then
     print("🎮 Обнаружена: 99 ночей в лесу")
