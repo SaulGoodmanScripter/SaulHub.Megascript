@@ -159,6 +159,26 @@ for i, tabName in ipairs(tabs) do
             print("Скрипт деактивирован!")
             -- Скрипт для noclip
         end)
+
+-- Кнопка 3
+        local button3 = Instance.new("TextButton")
+        button3.Size = UDim2.new(0, 200, 0, 40)
+        button3.Position = UDim3.new(0, 20, 0, 150)
+        button3.BackgroundColor3 = Color3.fromRGB(200, 80, 80)
+        button3.Text = "WalkSpeed"
+        button3.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button3.Font = Enum.Font.Gotham
+        button3.TextSize = 14
+        button3.Parent = tabContent
+        
+        local btn3Corner = Instance.new("UICorner")
+        btn3Corner.CornerRadius = UDim.new(0, 6)
+        btn3Corner.Parent = button3
+        
+        button3.MouseButton1Click:Connect(function()
+            print("Скрипт деактивирован!")
+            -- Скрипт для walkspeed
+        end)
         
     elseif tabName == "AutoFarm" then
         -- Кнопки для автоФарма
