@@ -137,7 +137,7 @@ for i, tabName in ipairs(tabs) do
         
         button1.MouseButton1Click:Connect(function()
             print("Скрипт активирован!")
-            --скрипт на летание 
+            https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/fly
         end)
         
         -- Кнопка 2
@@ -157,7 +157,7 @@ for i, tabName in ipairs(tabs) do
         
         button2.MouseButton1Click:Connect(function()
             print("Скрипт деактивирован!")
-            https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/noclip
+            loadstring(gamr:HttpGet ("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/noclip"))()
         end)
 
 -- Кнопка 3
@@ -177,7 +177,7 @@ for i, tabName in ipairs(tabs) do
         
         button3.MouseButton1Click:Connect(function()
             print("Скрипт деактивирован!")
-            -- Скрипт для walkspeed
+            loadstring(game.HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/WalkSpeed%20"))()
         end)
 local button4 = Instance.new("TextButton")
 button4.Size = UDim2.new(0, 200, 0, 40)
