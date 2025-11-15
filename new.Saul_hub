@@ -1,6 +1,6 @@
-local Players = game:GetService( "Players")  
-
-local TweenService game:GetService("TweenService") local player = Players.LocalPlayer
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer 
 
 -- Удаляем старый GUI
 if game:GetService("CoreGui"):FindFirstChild("KrnlGUI") then
