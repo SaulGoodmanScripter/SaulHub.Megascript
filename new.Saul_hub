@@ -214,7 +214,7 @@ end)
     -- 5 кнопка
         local button5 = Instance.new("TextButton")
         button5.Size = UDim2.new(0, 200, 0, 40)
-        button5.Position = UDim2.new(0, 20, 0, 150)
+        button5.Position = UDim2.new(0, 20, 0, 100)
         button5.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
         button5.Text = "EspPlayer"
         button5.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -263,7 +263,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/ArgetnarYT/scripts/ma
         
         local btn7Corner = Instance.new("UICorner")
         btn7Corner.CornerRadius = UDim.new(0, 6)
-        btn7Corner.Parent = button5
+        btn7Corner.Parent = button7
         
         button7.MouseButton1Click:Connect(function()
             loadstring(game:HttpGet('https://pastebin.com/raw/3Rnd9rHf'))()
@@ -277,7 +277,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/ArgetnarYT/scripts/ma
         button8.TextColor3 = Color3.fromRGB(255, 255, 255)
         button8.Font = Enum.Font.Gotham
         button8.TextSize = 14
-        button5.Parent = tabContent
+        button8.Parent = tabContent
         
         local btn8Corner = Instance.new("UICorner")
         btn8Corner.CornerRadius = UDim.new(0, 6)
@@ -299,7 +299,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/7dksbpxuw8/Other/refs
         
         local btn9Corner = Instance.new("UICorner")
         btn9Corner.CornerRadius = UDim.new(0, 6)
-        btn9Corner.Parent = button5
+        btn9Corner.Parent = button9
         
         button9.MouseButton1Click:Connect(function()
 loadstring(game:HttpGet("https://pastebin.com/raw/NXZp97wG"))()
