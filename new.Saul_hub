@@ -1,6 +1,6 @@
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
-local player = Players.LocalPlayer 
+local player = Players.LocalPlayer
 
 -- Удаляем старый GUI
 if game:GetService("CoreGui"):FindFirstChild("KrnlGUI") then
@@ -38,7 +38,7 @@ local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, -80, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "SAUL HUB"
+title.Text = "Saul HUB"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 16
@@ -81,7 +81,7 @@ contentFrame.BorderSizePixel = 0
 contentFrame.Parent = mainFrame
 
 -- Вкладки
-local tabs = {"Main", "Uneversal", "Games ", "Saul Hub", "credits no"}
+local tabs = {"Main", "Uneversalscript", "Games Script", "Saul Hub scripts"}
 
 for i, tabName in ipairs(tabs) do
     -- Кнопка вкладки
@@ -111,7 +111,7 @@ for i, tabName in ipairs(tabs) do
     contentTitle.Size = UDim2.new(1, -20, 0, 30)
     contentTitle.Position = UDim2.new(0, 10, 0, 10)
     contentTitle.BackgroundTransparency = 1
-    contentTitle.Text = tabName .. " script"
+    contentTitle.Text = tabName
     contentTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     contentTitle.Font = Enum.Font.GothamBold
     contentTitle.TextSize = 18
@@ -125,7 +125,7 @@ for i, tabName in ipairs(tabs) do
         button1.Size = UDim2.new(0, 200, 0, 40)
         button1.Position = UDim2.new(0, 20, 0, 50)
         button1.BackgroundColor3 = Color3.fromRGB(80, 120, 200)
-        button1.Text = "Fly Gui"
+        button1.Text = "Fly gui"
         button1.TextColor3 = Color3.fromRGB(255, 255, 255)
         button1.Font = Enum.Font.Gotham
         button1.TextSize = 14
@@ -136,10 +136,9 @@ for i, tabName in ipairs(tabs) do
         btn1Corner.Parent = button1
         
         button1.MouseButton1Click:Connect(function()
-            print("Скрипт активирован")
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/OBFhm5650lol/F/refs/heads/main/F", true))()
-
-end)
+            print("Скрипт активирован!")
+            --скрипт на летание 
+        end)
         
         -- Кнопка 2
         local button2 = Instance.new("TextButton")
@@ -158,10 +157,10 @@ end)
         
         button2.MouseButton1Click:Connect(function()
             print("Скрипт деактивирован!")
-            -- Сюда твой код для деактивации
+            -- Скрипт для noclip
         end)
         
-    elseif tabName == "Uneversal" then
+    elseif tabName == "AutoFarm" then
         -- Кнопки для автоФарма
         local farmButtons = {
             {"Включить автоФарм", Color3.fromRGB(80, 200, 120)},
@@ -190,7 +189,7 @@ end)
             end)
         end
         
-    elseif tabName == "Games" then
+    elseif tabName == "Teleports" then
         -- Телепорты
         local teleports = {
             {"🏠 База", Color3.fromRGB(90, 90, 210)},
@@ -220,7 +219,7 @@ end)
             end)
         end
         
-    elseif tabName == "Saul hub" then
+    elseif tabName == "Misc" then
         -- Разные функции
         local miscButtons = {
             {"🔄 Респавн", Color3.fromRGB(150, 150, 150)},
@@ -249,21 +248,6 @@ end)
             end)
         end
     end
-
-elseif tabName == "credits no" then
-    -- Кнопки для credits
-    local creditBtn = Instance.new("TextButton")
-    creditBtn.Size = UDim2.new(0, 180, 0, 35)
-    creditBtn.Position = UDim2.new(0, 20, 0, 50)
-    creditBtn.BackgroundColor3 = Color3.fromRGB(80, 160, 200)
-    creditBtn.Text = "📋 Copy Telegram"
-    creditBtn.Parent = tabContent
-    
-    creditBtn.MouseButton1Click:Connect(function()
-        setclipboard("https://t.me/SaulGoodmanScript")
-        print("Telegram скопирован!")
-    end)
-end
     
     -- Обработчик клика по вкладке
     tabBtn.MouseButton1Click:Connect(function()
