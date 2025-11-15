@@ -146,7 +146,7 @@ end)
         button2.Size = UDim2.new(0, 200, 0, 40)
         button2.Position = UDim2.new(0, 20, 0, 100)
         button2.BackgroundColor3 = Color3.fromRGB(200, 80, 80)
-        button2.Text = "Деактивировать"
+        button2.Text = "Noclip"
         button2.TextColor3 = Color3.fromRGB(255, 255, 255)
         button2.Font = Enum.Font.Gotham
         button2.TextSize = 14
@@ -161,7 +161,7 @@ end)
             -- Сюда твой код для деактивации
         end)
         
-    elseif tabName == "AutoFarm" then
+    elseif tabName == "Uneversal" then
         -- Кнопки для автоФарма
         local farmButtons = {
             {"Включить автоФарм", Color3.fromRGB(80, 200, 120)},
@@ -190,7 +190,7 @@ end)
             end)
         end
         
-    elseif tabName == "Teleports" then
+    elseif tabName == "Games" then
         -- Телепорты
         local teleports = {
             {"🏠 База", Color3.fromRGB(90, 90, 210)},
@@ -220,7 +220,7 @@ end)
             end)
         end
         
-    elseif tabName == "Misc" then
+    elseif tabName == "Saul hub" then
         -- Разные функции
         local miscButtons = {
             {"🔄 Респавн", Color3.fromRGB(150, 150, 150)},
@@ -249,6 +249,21 @@ end)
             end)
         end
     end
+
+elseif tabName == "credits no" then
+    -- Кнопки для credits
+    local creditBtn = Instance.new("TextButton")
+    creditBtn.Size = UDim2.new(0, 180, 0, 35)
+    creditBtn.Position = UDim2.new(0, 20, 0, 50)
+    creditBtn.BackgroundColor3 = Color3.fromRGB(80, 160, 200)
+    creditBtn.Text = "📋 Copy Telegram"
+    creditBtn.Parent = tabContent
+    
+    creditBtn.MouseButton1Click:Connect(function()
+        setclipboard("https://t.me/SaulGoodmanScript")
+        print("Telegram скопирован!")
+    end)
+end
     
     -- Обработчик клика по вкладке
     tabBtn.MouseButton1Click:Connect(function()
