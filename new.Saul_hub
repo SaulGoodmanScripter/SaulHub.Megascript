@@ -1,5 +1,6 @@
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 
 -- Удаляем старый GUI
@@ -14,8 +15,8 @@ screenGui.Parent = game:GetService("CoreGui")
 
 -- Главный фрейм
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 500, 0, 350)
-mainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
+mainFrame.Size = UDim2.new(0, 500, 0, 450)
+mainFrame.Position = UDim2.new(0.5, -250, 0.5, -225)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
@@ -38,7 +39,7 @@ local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, -80, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "Saul HUB"
+title.Text = "Saul HUB - Game Scripts"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 16
@@ -81,7 +82,20 @@ contentFrame.BorderSizePixel = 0
 contentFrame.Parent = mainFrame
 
 -- Вкладки
-local tabs = {"Main", "Uneversalscript", "Games Script", "Saul Hub scripts"}
+local tabs = {"Main", "Universal", "99 Nights", "Steal Brainrot", "Blox Fruits", "Dead Rails", "Slap Battles", "Saul Hub"}
+
+-- Переменная для Infinite Jump
+local InfiniteJumpEnabled = false
+
+-- Обработчик Infinite Jump
+UserInputService.JumpRequest:Connect(function()
+    if InfiniteJumpEnabled and player.Character then
+        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid:ChangeState("Jumping")
+        end
+    end
+end)
 
 for i, tabName in ipairs(tabs) do
     -- Кнопка вкладки
@@ -92,20 +106,20 @@ for i, tabName in ipairs(tabs) do
     tabBtn.Text = tabName
     tabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     tabBtn.Font = Enum.Font.Gotham
-    tabBtn.TextSize = 13
+    tabBtn.TextSize = 12
     tabBtn.Parent = sidebar
-    
+
     local tabCorner = Instance.new("UICorner")
     tabCorner.CornerRadius = UDim.new(0, 4)
     tabCorner.Parent = tabBtn
-    
+
     -- Фрейм контента
     local tabContent = Instance.new("Frame")
     tabContent.Size = UDim2.new(1, 0, 1, 0)
     tabContent.BackgroundTransparency = 1
     tabContent.Visible = i == 1
     tabContent.Parent = contentFrame
-    
+
     -- Заголовок в контенте
     local contentTitle = Instance.new("TextLabel")
     contentTitle.Size = UDim2.new(1, -20, 0, 30)
@@ -117,255 +131,254 @@ for i, tabName in ipairs(tabs) do
     contentTitle.TextSize = 18
     contentTitle.TextXAlignment = Enum.TextXAlignment.Left
     contentTitle.Parent = tabContent
-    
-    -- ДОБАВЛЯЕМ КНОПКИ В КАЖДУЮ ВКЛАДКУ
+
+    -- Содержимое вкладок
     if tabName == "Main" then
-        -- Кнопка 1
-        local button1 = Instance.new("TextButton")
-        button1.Size = UDim2.new(0, 200, 0, 40)
-        button1.Position = UDim2.new(0, 20, 0, 50)
-        button1.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-        button1.Text = "Fly gui"
-        button1.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button1.Font = Enum.Font.Gotham
-        button1.TextSize = 14
-        button1.Parent = tabContent
-        
-        local btn1Corner = Instance.new("UICorner")
-        btn1Corner.CornerRadius = UDim.new(0, 6)
-        btn1Corner.Parent = button1
-        
-        button1.MouseButton1Click:Connect(function()
-            print("Скрипт активирован!")
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/fly"))()
-        end)
-        
-        -- Кнопка 2
-        local button2 = Instance.new("TextButton")
-        button2.Size = UDim2.new(0, 200, 0, 40)
-        button2.Position = UDim2.new(0, 20, 0, 100)
-        button2.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-        button2.Text = "Noclip"
-        button2.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button2.Font = Enum.Font.Gotham
-        button2.TextSize = 14
-        button2.Parent = tabContent
-        
-        local btn2Corner = Instance.new("UICorner")
-        btn2Corner.CornerRadius = UDim.new(0, 6)
-        btn2Corner.Parent = button2
-        
-        button2.MouseButton1Click:Connect(function()
-            print("Скрипт деактивирован!")
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/noclip"))()
-        end)
-
--- Кнопка 3
-        local button3 = Instance.new("TextButton")
-        button3.Size = UDim2.new(0, 200, 0, 40)
-        button3.Position = UDim2.new(0, 20, 0, 150)
-        button3.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-        button3.Text = "WalkSpeed"
-        button3.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button3.Font = Enum.Font.Gotham
-        button3.TextSize = 14
-        button3.Parent = tabContent
-        
-        local btn3Corner = Instance.new("UICorner")
-        btn3Corner.CornerRadius = UDim.new(0, 6)
-        btn3Corner.Parent = button3
-        
-        button3.MouseButton1Click:Connect(function()
-            print("Скрипт деактивирован!") loadstring(game:HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/WalkSpeed%20"))()
-        end)
---кнопка 4
-local button4 = Instance.new("TextButton")
-button4.Size = UDim2.new(0, 200, 0, 40)
-button4.Position = UDim2.new(0, 20, 0, 200)
-button4.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-button4.Text = "Inf Jump"  -- Просто "Inf Jump"
-button4.TextColor3 = Color3.fromRGB(255, 255, 255)
-button4.Font = Enum.Font.Gotham
-button4.TextSize = 14
-button4.Parent = tabContent
-
-local btn4Corner = Instance.new("UICorner")
-btn4Corner.CornerRadius = UDim.new(0, 6)
-btn4Corner.Parent = button4
-
-local InfiniteJumpEnabled = true
-
-game:GetService("UserInputService").JumpRequest:connect(function()
-    if InfiniteJumpEnabled then
-        game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
-    end
-end)
-button4.MouseButton1Click:Connect(function()
-    local InfiniteJumpEnabled = true
-    game:GetService("UserInputService").JumpRequest:connect(function()
-        if InfiniteJumpEnabled then
-            game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
-        end
-    end)
-    print("Inf Jump активирован!")
-end)
-        
-    elseif tabName == "Uneversalscript" then
-    -- 5 кнопка
-        local button5 = Instance.new("TextButton")
-        button5.Size = UDim2.new(0, 200, 0, 40)
-        button5.Position = UDim2.new(0, 20, 0, 100)
-        button5.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-        button5.Text = "EspPlayer"
-        button5.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button5.Font = Enum.Font.Gotham
-        button5.TextSize = 14
-        button5.Parent = tabContent
-        
-        local btn5Corner = Instance.new("UICorner")
-        btn5Corner.CornerRadius = UDim.new(0, 6)
-        btn5Corner.Parent = button5
-        
-        button5.MouseButton1Click:Connect(function()
-            
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/especially%20player%20"))()
-        end)
--- Кнопка 6
-        local button6 = Instance.new("TextButton")
-        button6.Size = UDim2.new(0, 100, 0, 40)
-        button6.Position = UDim2.new(0, 20, 0, 150)
-        button6.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-        button6.Text = "anti afk"
-        button6.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button6.Font = Enum.Font.Gotham
-        button6.TextSize = 14
-        button6.Parent = tabContent
-        
-        local btn6Corner = Instance.new("UICorner")
-        btn6Corner.CornerRadius = UDim.new(0, 6)
-        btn6Corner.Parent = button6
-        
-        button6.MouseButton1Click:Connect(function()
-            
-loadstring(game:HttpGet("https://raw.githubusercontent.com/ArgetnarYT/scripts/main/AntiAfk2.lua"))()
-        end)
-
--- Кнопка 7
-        local button7 = Instance.new("TextButton")
-        button7.Size = UDim2.new(0, 200, 0, 40)
-        button7.Position = UDim2.new(0, 20, 0, 200)
-        button7.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-        button7.Text = "invisible"
-        button7.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button7.Font = Enum.Font.Gotham
-        button7.TextSize = 14
-        button7.Parent = tabContent
-        
-        local btn7Corner = Instance.new("UICorner")
-        btn7Corner.CornerRadius = UDim.new(0, 6)
-        btn7Corner.Parent = button7
-        
-        button7.MouseButton1Click:Connect(function()
-            loadstring(game:HttpGet('https://pastebin.com/raw/3Rnd9rHf'))()
-        end)
--- Кнопка 8
-        local button8 = Instance.new("TextButton")
-        button8.Size = UDim2.new(0, 200, 0, 40)
-        button8.Position = UDim2.new(0, 20, 0, 250)
-        button8.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-        button8.Text = "Walkfling"
-        button8.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button8.Font = Enum.Font.Gotham
-        button8.TextSize = 14
-        button8.Parent = tabContent
-        
-        local btn8Corner = Instance.new("UICorner")
-        btn8Corner.CornerRadius = UDim.new(0, 6)
-        btn8Corner.Parent = button8
-        
-        button8.MouseButton1Click:Connect(function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/7dksbpxuw8/Other/refs/heads/main/Walkfling"))()
-        end)
--- Кнопка 9
-        local button9 = Instance.new("TextButton")
-        button9.Size = UDim2.new(0, 200, 0, 40)
-        button9.Position = UDim2.new(0, 20, 0, 300)
-        button9.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-        button9.Text = "emotes"
-        button9.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button9.Font = Enum.Font.Gotham
-        button9.TextSize = 14
-        button9.Parent = tabContent
-        
-        local btn9Corner = Instance.new("UICorner")
-        btn9Corner.CornerRadius = UDim.new(0, 6)
-        btn9Corner.Parent = button9
-        
-        button9.MouseButton1Click:Connect(function()
-loadstring(game:HttpGet("https://pastebin.com/raw/NXZp97wG"))()
-            
-        end)
-        
-    elseif tabName == "Teleports" then
-        -- Телепорты
-        local teleports = {
-            {"🏠 База", Color3.fromRGB(90, 90, 210)},
-            {"💰 Банк", Color3.fromRGB(210, 180, 60)},
-            {"⚔️ Арена", Color3.fromRGB(210, 90, 90)},
-            {"🌳 Лес", Color3.fromRGB(60, 180, 90)}
+        local mainButtons = {
+            {"Fly GUI", "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/fly"},
+            {"Noclip", "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/noclip"},
+            {"WalkSpeed", "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/WalkSpeed%20"}
         }
-        
-        for j, tpData in ipairs(teleports) do
-            local tpBtn = Instance.new("TextButton")
-            tpBtn.Size = UDim2.new(0, 160, 0, 32)
-            tpBtn.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 40)
-            tpBtn.BackgroundColor3 = tpData[2]
-            tpBtn.Text = tpData[1]
-            tpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-            tpBtn.Font = Enum.Font.Gotham
-            tpBtn.TextSize = 12
-            tpBtn.Parent = tabContent
-            
-            local tpCorner = Instance.new("UICorner")
-            tpCorner.CornerRadius = UDim.new(0, 6)
-            tpCorner.Parent = tpBtn
-            
-            tpBtn.MouseButton1Click:Connect(function()
-                print("Телепорт: " .. tpData[1])
-                -- Сюда код телепортации
+
+        for j, btnData in ipairs(mainButtons) do
+            local button = Instance.new("TextButton")
+            button.Size = UDim2.new(0, 200, 0, 40)
+            button.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 50)
+            button.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
+            button.Text = btnData[1]
+            button.TextColor3 = Color3.fromRGB(255, 255, 255)
+            button.Font = Enum.Font.Gotham
+            button.TextSize = 14
+            button.Parent = tabContent
+
+            local btnCorner = Instance.new("UICorner")
+            btnCorner.CornerRadius = UDim.new(0, 6)
+            btnCorner.Parent = button
+
+            button.MouseButton1Click:Connect(function()
+                print("Загружаем: " .. btnData[1])
+                loadstring(game:HttpGet(btnData[2]))()
             end)
         end
-        
-    elseif tabName == "Misc" then
-        -- Разные функции
-        local miscButtons = {
-            {"🔄 Респавн", Color3.fromRGB(150, 150, 150)},
-            {"🎭 Сменить внешность", Color3.fromRGB(180, 100, 200)},
-            {"📊 Информация", Color3.fromRGB(100, 160, 200)}
+
+        -- Кнопка Infinite Jump
+        local infJumpBtn = Instance.new("TextButton")
+        infJumpBtn.Size = UDim2.new(0, 200, 0, 40)
+        infJumpBtn.Position = UDim2.new(0, 20, 0, 200)
+        infJumpBtn.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
+        infJumpBtn.Text = "Inf Jump: OFF"
+        infJumpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        infJumpBtn.Font = Enum.Font.Gotham
+        infJumpBtn.TextSize = 14
+        infJumpBtn.Parent = tabContent
+
+        local infJumpCorner = Instance.new("UICorner")
+        infJumpCorner.CornerRadius = UDim.new(0, 6)
+        infJumpCorner.Parent = infJumpBtn
+
+        infJumpBtn.MouseButton1Click:Connect(function()
+            InfiniteJumpEnabled = not InfiniteJumpEnabled
+            if InfiniteJumpEnabled then
+                infJumpBtn.Text = "Inf Jump: ON"
+                print("Inf Jump включен!")
+            else
+                infJumpBtn.Text = "Inf Jump: OFF"
+                print("Inf Jump выключен!")
+            end
+        end)
+
+    elseif tabName == "Universal" then
+        local universalButtons = {
+            {"Esp Player", "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/especially%20player%20"},
+            {"Anti AFK", "https://raw.githubusercontent.com/ArgetnarYT/scripts/main/AntiAfk2.lua"},
+            {"Invisible", "https://pastebin.com/raw/3Rnd9rHf"},
+            {"Walkfling", "https://raw.githubusercontent.com/7dksbpxuw8/Other/refs/heads/main/Walkfling"},
+            {"Emotes", "https://pastebin.com/raw/NXZp97wG"}
         }
-        
-        for j, miscData in ipairs(miscButtons) do
-            local miscBtn = Instance.new("TextButton")
-            miscBtn.Size = UDim2.new(0, 170, 0, 35)
-            miscBtn.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 45)
-            miscBtn.BackgroundColor3 = miscData[2]
-            miscBtn.Text = miscData[1]
-            miscBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-            miscBtn.Font = Enum.Font.Gotham
-            miscBtn.TextSize = 12
-            miscBtn.Parent = tabContent
-            
-            local miscCorner = Instance.new("UICorner")
-            miscCorner.CornerRadius = UDim.new(0, 6)
-            miscCorner.Parent = miscBtn
-            
-            miscBtn.MouseButton1Click:Connect(function()
-                print("Функция: " .. miscData[1])
-                -- Сюда код для функции
+
+        for j, btnData in ipairs(universalButtons) do
+            local button = Instance.new("TextButton")
+            button.Size = UDim2.new(0, 200, 0, 40)
+            button.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 50)
+            button.BackgroundColor3 = Color3.fromRGB(80, 150, 255)
+            button.Text = btnData[1]
+            button.TextColor3 = Color3.fromRGB(255, 255, 255)
+            button.Font = Enum.Font.Gotham
+            button.TextSize = 14
+            button.Parent = tabContent
+
+            local btnCorner = Instance.new("UICorner")
+            btnCorner.CornerRadius = UDim.new(0, 6)
+            btnCorner.Parent = button
+
+            button.MouseButton1Click:Connect(function()
+                print("Загружаем: " .. btnData[1])
+                loadstring(game:HttpGet(btnData[2]))()
             end)
         end
+
+    elseif tabName == "99 Nights" then
+        local nightsButtons = {
+            {"🌙 Auto Farm (Days/Diamonds)", "https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/Gfarm", Color3.fromRGB(100, 200, 255)},
+            {"🎮 Comfort Script", "https://raw.githubusercontent.com/VapeVoidware/VWExtra/main/NightsInTheForest.lua", Color3.fromRGB(150, 100, 255)}
+        }
+
+        for j, btnData in ipairs(nightsButtons) do
+            local button = Instance.new("TextButton")
+            button.Size = UDim2.new(0, 250, 0, 40)
+            button.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 50)
+            button.BackgroundColor3 = btnData[3]
+            button.Text = btnData[1]
+            button.TextColor3 = Color3.fromRGB(255, 255, 255)
+            button.Font = Enum.Font.Gotham
+            button.TextSize = 13
+            button.Parent = tabContent
+
+            local btnCorner = Instance.new("UICorner")
+            btnCorner.CornerRadius = UDim.new(0, 6)
+            btnCorner.Parent = button
+
+            button.MouseButton1Click:Connect(function()
+                print("Загружаем 99 Nights: " .. btnData[1])
+                loadstring(game:HttpGet(btnData[2], true))()
+            end)
+        end
+
+    elseif tabName == "Steal Brainrot" then
+        local brainrotButton = Instance.new("TextButton")
+        brainrotButton.Size = UDim2.new(0, 250, 0, 40)
+        brainrotButton.Position = UDim2.new(0, 20, 0, 50)
+        brainrotButton.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+        brainrotButton.Text = "🧠 Steal a Brainrot Script"
+        brainrotButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        brainrotButton.Font = Enum.Font.Gotham
+        brainrotButton.TextSize = 14
+        brainrotButton.Parent = tabContent
+
+        local brainrotCorner = Instance.new("UICorner")
+        brainrotCorner.CornerRadius = UDim.new(0, 6)
+        brainrotCorner.Parent = brainrotButton
+
+        brainrotButton.MouseButton1Click:Connect(function()
+            print("Загружаем Steal a Brainrot скрипт")
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()
+        end)
+
+    elseif tabName == "Blox Fruits" then
+        local bloxButton = Instance.new("TextButton")
+        bloxButton.Size = UDim2.new(0, 250, 0, 40)
+        bloxButton.Position = UDim2.new(0, 20, 0, 50)
+        bloxButton.BackgroundColor3 = Color3.fromRGB(255, 150, 50)
+        bloxButton.Text = "🍊 Blox Fruits XP Farm"
+        bloxButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        bloxButton.Font = Enum.Font.Gotham
+        bloxButton.TextSize = 14
+        bloxButton.Parent = tabContent
+
+        local bloxCorner = Instance.new("UICorner")
+        bloxCorner.CornerRadius = UDim.new(0, 6)
+        bloxCorner.Parent = bloxButton
+
+        bloxButton.MouseButton1Click:Connect(function()
+            print("Загружаем Blox Fruits XP Farm")
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/wpisstestfprg/Volcano/refs/heads/main/VolcanoNewUpdated.luau"))()
+        end)
+
+    elseif tabName == "Dead Rails" then
+        local deadRailsButtons = {
+            {"💰 Auto Farm Money", "https://raw.githubusercontent.com/yoursvexyyy/dead--rails/refs/heads/main/autosellvaluables", Color3.fromRGB(100, 255, 150)},
+            {"🎫 Auto Farm Bonds", "https://raw.githubusercontent.com/platformdiamond/Lawhub/refs/heads/main/Lawhub", Color3.fromRGB(255, 200, 100)}
+        }
+
+        for j, btnData in ipairs(deadRailsButtons) do
+            local button = Instance.new("TextButton")
+            button.Size = UDim2.new(0, 220, 0, 40)
+            button.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 50)
+            button.BackgroundColor3 = btnData[3]
+            button.Text = btnData[1]
+            button.TextColor3 = Color3.fromRGB(255, 255, 255)
+            button.Font = Enum.Font.Gotham
+            button.TextSize = 13
+            button.Parent = tabContent
+
+            local btnCorner = Instance.new("UICorner")
+            btnCorner.CornerRadius = UDim.new(0, 6)
+            btnCorner.Parent = button
+
+            button.MouseButton1Click:Connect(function()
+                print("Загружаем Dead Rails: " .. btnData[1])
+                loadstring(game:HttpGet(btnData[2]))()
+            end)
+        end
+
+    elseif tabName == "Slap Battles" then
+        local slapButton = Instance.new("TextButton")
+        slapButton.Size = UDim2.new(0, 250, 0, 40)
+        slapButton.Position = UDim2.new(0, 20, 0, 50)
+        slapButton.BackgroundColor3 = Color3.fromRGB(255, 100, 200)
+        slapButton.Text = "👋 Slap Battles Farm"
+        slapButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        slapButton.Font = Enum.Font.Gotham
+        slapButton.TextSize = 14
+        slapButton.Parent = tabContent
+
+        local slapCorner = Instance.new("UICorner")
+        slapCorner.CornerRadius = UDim.new(0, 6)
+        slapCorner.Parent = slapButton
+
+        slapButton.MouseButton1Click:Connect(function()
+            print("Загружаем Slap Battles Farm")
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/CelerityRBLX/Roblox/refs/heads/main/Slap%20Battles/Slap%20Farm%20Loader.lua"))()
+        end)
+
+    elseif tabName == "Saul Hub" then
+        local saulButtons = {
+            {"Soon..", 
+Color3.fromRGB(220, 80, 140)},
+            {"Soon...", 
+Color3.fromRGB(80, 220, 140)},
+            {"Soon...", 
+Color3.fromRGB(140, 80, 220)},
+            {"Soon...", 
+Color3.fromRGB(220, 180, 80)},
+            {"Soon...", 
+Color3.fromRGB(80, 180, 220)}
+        }
+
+        for j, btnData in ipairs(saulButtons) do
+            local button = Instance.new("TextButton")
+            button.Size = UDim2.new(0, 180, 0, 35)
+            button.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 45)
+            button.BackgroundColor3 = btnData[2]
+            button.Text = btnData[1]
+            button.TextColor3 = Color3.fromRGB(255, 255, 255)
+            button.Font = Enum.Font.Gotham
+            button.TextSize = 12
+            button.Parent = tabContent
+
+            local btnCorner = Instance.new("UICorner")
+            btnCorner.CornerRadius = UDim.new(0, 6)
+            btnCorner.Parent = button
+
+            button.MouseButton1Click:Connect(function()
+                print("Saul Hub скрипт: " .. btnData[1])
+                -- Здесь можно добавить эксклюзивные скрипты Saul Hub
+            end)
+        end
+
+        -- Информация о Saul Hub
+        local infoLabel = Instance.new("TextLabel")
+        infoLabel.Size = UDim2.new(1, -40, 0, 80)
+        infoLabel.Position = UDim2.new(0, 20, 0, 280)
+        infoLabel.BackgroundTransparency = 1
+        infoLabel.Text = "🔥 Эксклюзивные скрипты Saul Hub\nPremium качество и поддержка!\n\nДобавь свои скрипты в этот раздел"
+        infoLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        infoLabel.Font = Enum.Font.Gotham
+        infoLabel.TextSize = 14
+        infoLabel.TextWrapped = true
+        infoLabel.Parent = tabContent
     end
-    
+
     -- Обработчик клика по вкладке
     tabBtn.MouseButton1Click:Connect(function()
         for _, child in ipairs(contentFrame:GetChildren()) do
@@ -380,5 +393,5 @@ end
 -- Анимация появления
 mainFrame.Size = UDim2.new(0, 0, 0, 0)
 TweenService:Create(mainFrame, TweenInfo.new(0.3), {
-    Size = UDim2.new(0, 500, 0, 350)
+    Size = UDim2.new(0, 500, 0, 450)
 }):Play()
