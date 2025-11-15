@@ -1,6 +1,6 @@
 
 local GameId = game.GameId
-local Players = game:GetService("Players")
+locl Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local HttpService = game:GetService("HttpService")
 
