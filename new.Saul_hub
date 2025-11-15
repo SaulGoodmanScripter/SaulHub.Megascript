@@ -157,7 +157,7 @@ for i, tabName in ipairs(tabs) do
         
         button2.MouseButton1Click:Connect(function()
             print("Скрипт деактивирован!")
-            -- Скрипт для noclip
+            https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/noclip
         end)
 
 -- Кнопка 3
