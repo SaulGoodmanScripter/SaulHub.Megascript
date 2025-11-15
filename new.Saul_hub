@@ -1,212 +1,267 @@
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
-local SoundService = game:GetService("SoundService")
 local player = Players.LocalPlayer
 
--- Удаляем старый GUI если существует
-if game:GetService("CoreGui"):FindFirstChild("DupeGUI") then
-    game:GetService("CoreGui").DupeGUI:Destroy()
-end
-if player:FindFirstChild("PlayerGui"):FindFirstChild("DupeGUI") then
-    player.PlayerGui.DupeGUI:Destroy()
+-- Удаляем старый GUI
+if game:GetService("CoreGui"):FindFirstChild("KrnlGUI") then
+    game:GetService("CoreGui").KrnlGUI:Destroy()
 end
 
 -- Создаем интерфейс
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "DupeGUI"
-screenGui.ResetOnSpawn = false
-screenGui.IgnoreGuiInset = true
-screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.Name = "KrnlGUI"
 screenGui.Parent = game:GetService("CoreGui")
-
--- Звук клика
-local clickSound = Instance.new("Sound")
-clickSound.SoundId = "rbxassetid://5419098671"
-clickSound.Volume = 0.5
-clickSound.Parent = SoundService
-
-local function playClick()
-    clickSound:Play()
-end
 
 -- Главный фрейм
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 580, 0, 380)
-mainFrame.Position = UDim2.new(0.5, -290, 0.5, -190)
-mainFrame.BackgroundColor3 = Color3.fromRGB(40, 0, 60)
+mainFrame.Size = UDim2.new(0, 500, 0, 350)
+mainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
+mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
 mainFrame.Draggable = true
 mainFrame.Parent = screenGui
 
 local corner = Instance.new("UICorner")
-corner.CornerRadius = UDim.new(0, 12)
+corner.CornerRadius = UDim.new(0, 8)
 corner.Parent = mainFrame
-
--- Тень
-local shadow = Instance.new("ImageLabel")
-shadow.BackgroundTransparency = 1
-shadow.Size = UDim2.new(1, 20, 1, 20)
-shadow.Position = UDim2.new(0, -10, 0, -10)
-shadow.Image = "rbxassetid://1316045217"
-shadow.ImageColor3 = Color3.fromRGB(100, 0, 150)
-shadow.ImageTransparency = 0.6
-shadow.ScaleType = Enum.ScaleType.Slice
-shadow.SliceCenter = Rect.new(10, 10, 118, 118)
-shadow.Parent = mainFrame
 
 -- Верхняя панель
 local topBar = Instance.new("Frame")
-topBar.Name = "TopBar"
-topBar.Size = UDim2.new(1, 0, 0, 38)
-topBar.BackgroundColor3 = Color3.fromRGB(60, 0, 90)
+topBar.Size = UDim2.new(1, 0, 0, 40)
+topBar.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
 topBar.BorderSizePixel = 0
 topBar.Parent = mainFrame
 
-local topBarCorner = Instance.new("UICorner")
-topBarCorner.CornerRadius = UDim.new(0, 8)
-topBarCorner.Parent = topBar
-
 -- Заголовок
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, -100, 1, 0)
-title.Position = UDim2.new(0, 12, 0, 0)
+title.Size = UDim2.new(1, -80, 1, 0)
+title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "Saul Hub"
-title.TextColor3 = Color3.fromRGB(220, 180, 255)
+title.Text = "KRNL HUB"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 16
 title.TextXAlignment = Enum.TextXAlignment.Left
 title.Parent = topBar
 
--- Функция создания кнопок
-local function createIconButton(offset, text)
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0, 30, 0, 30)
-    btn.Position = UDim2.new(1, offset, 0.5, -15)
-    btn.BackgroundColor3 = Color3.fromRGB(80, 0, 120)
-    btn.Text = text
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 14
-    btn.AutoButtonColor = true
-    
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(1, 0)
-    corner.Parent = btn
-    
-    return btn
-end
-
 -- Кнопка закрытия
-local closeBtn = createIconButton(-40, "✕")
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0.5, -15)
+closeBtn.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 14
 closeBtn.Parent = topBar
 
+local btnCorner = Instance.new("UICorner")
+btnCorner.CornerRadius = UDim.new(1, 0)
+btnCorner.Parent = closeBtn
+
 closeBtn.MouseButton1Click:Connect(function()
-    playClick()
-    TweenService:Create(mainFrame, TweenInfo.new(0.3), {Transparency = 1}):Play()
-    wait(0.3)
     screenGui:Destroy()
 end)
 
--- Кнопка сворачивания
-local minimizeBtn = createIconButton(-80, "–")
-minimizeBtn.Parent = topBar
-
-local minimized = false
-local savedState = {}
-
-minimizeBtn.MouseButton1Click:Connect(function()
-    playClick()
-    minimized = not minimized
-
-    for _, child in ipairs(mainFrame:GetChildren()) do
-        if child ~= topBar and child:IsA("GuiObject") then
-            if minimized then
-                savedState[child] = child.Visible
-                child.Visible = false
-            else
-                if savedState[child] ~= nil then
-                    child.Visible = savedState[child]
-                end
-            end
-        end
-    end
-
-    local targetSize = minimized and UDim2.new(0, 200, 0, 50) or UDim2.new(0, 580, 0, 380)
-    TweenService:Create(mainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {
-        Size = targetSize
-    }):Play()
-end)
-
--- Панель вкладок
-local tabPanel = Instance.new("Frame")
-tabPanel.Position = UDim2.new(0, 0, 0, 38)
-tabPanel.Size = UDim2.new(0, 150, 1, -38)
-tabPanel.BackgroundColor3 = Color3.fromRGB(50, 0, 75)
-tabPanel.BorderSizePixel = 0
-tabPanel.Parent = mainFrame
-
-local tabCorner = Instance.new("UICorner")
-tabCorner.CornerRadius = UDim.new(0, 8)
-tabCorner.Parent = tabPanel
+-- Боковая панель
+local sidebar = Instance.new("Frame")
+sidebar.Size = UDim2.new(0, 120, 1, -40)
+sidebar.Position = UDim2.new(0, 0, 0, 40)
+sidebar.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+sidebar.BorderSizePixel = 0
+sidebar.Parent = mainFrame
 
 -- Контентная область
 local contentFrame = Instance.new("Frame")
-contentFrame.Position = UDim2.new(0, 150, 0, 38)
-contentFrame.Size = UDim2.new(1, -150, 1, -38)
-contentFrame.BackgroundColor3 = Color3.fromRGB(60, 0, 90)
-contentFrame.BackgroundTransparency = 0.05
+contentFrame.Size = UDim2.new(1, -120, 1, -40)
+contentFrame.Position = UDim2.new(0, 120, 0, 40)
+contentFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
 contentFrame.BorderSizePixel = 0
 contentFrame.Parent = mainFrame
 
-local contentCorner = Instance.new("UICorner")
-contentCorner.CornerRadius = UDim.new(0, 8)
-contentCorner.Parent = contentFrame
+-- Вкладки
+local tabs = {"Main", "Uneversalscript", "Games Script", "Saul Hub scripts"}
 
--- Список вкладок
-local tabs = {"info", "Uneversal", "99-Night-in-the-Forset", "Grow_a_garden", "SlapBattles", "steal_a_brainrot"}
-
--- Создаем вкладки
-local tabButtons, tabFrames = {}, {}
-local tabIndex = 0
-
-for _, tabName in ipairs(tabs) do
-    tabIndex += 1
-    
+for i, tabName in ipairs(tabs) do
     -- Кнопка вкладки
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(1, -20, 0, 36)
-    btn.Position = UDim2.new(0, 10, 0, (tabIndex - 1) * 42 + 10)
-    btn.Text = tabName
-    btn.BackgroundColor3 = Color3.fromRGB(70, 0, 105)
-    btn.TextColor3 = Color3.fromRGB(220, 180, 255)
-    btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 13
-    btn.AutoButtonColor = true
-    btn.Parent = tabPanel
+    local tabBtn = Instance.new("TextButton")
+    tabBtn.Size = UDim2.new(1, -10, 0, 35)
+    tabBtn.Position = UDim2.new(0, 5, 0, (i-1) * 40 + 5)
+    tabBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 65)
+    tabBtn.Text = tabName
+    tabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    tabBtn.Font = Enum.Font.Gotham
+    tabBtn.TextSize = 13
+    tabBtn.Parent = sidebar
     
-    local btnCorner = Instance.new("UICorner")
-    btnCorner.CornerRadius = UDim.new(0, 6)
-    btnCorner.Parent = btn
+    local tabCorner = Instance.new("UICorner")
+    tabCorner.CornerRadius = UDim.new(0, 4)
+    tabCorner.Parent = tabBtn
     
-    table.insert(tabButtons, btn)
+    -- Фрейм контента
+    local tabContent = Instance.new("Frame")
+    tabContent.Size = UDim2.new(1, 0, 1, 0)
+    tabContent.BackgroundTransparency = 1
+    tabContent.Visible = i == 1
+    tabContent.Parent = contentFrame
     
-    -- Фрейм контента для вкладки
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(1, 0, 1, 0)
-    frame.BackgroundTransparency = 1
-    frame.Visible = tabName == "Fruits"
-    frame.Parent = contentFrame
+    -- Заголовок в контенте
+    local contentTitle = Instance.new("TextLabel")
+    contentTitle.Size = UDim2.new(1, -20, 0, 30)
+    contentTitle.Position = UDim2.new(0, 10, 0, 10)
+    contentTitle.BackgroundTransparency = 1
+    contentTitle.Text = tabName .. " Features"
+    contentTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    contentTitle.Font = Enum.Font.GothamBold
+    contentTitle.TextSize = 18
+    contentTitle.TextXAlignment = Enum.TextXAlignment.Left
+    contentTitle.Parent = tabContent
     
-    tabFrames[tabName] = frame
+    -- ДОБАВЛЯЕМ КНОПКИ В КАЖДУЮ ВКЛАДКУ
+    if tabName == "Main" then
+        -- Кнопка 1
+        local button1 = Instance.new("TextButton")
+        button1.Size = UDim2.new(0, 200, 0, 40)
+        button1.Position = UDim2.new(0, 20, 0, 50)
+        button1.BackgroundColor3 = Color3.fromRGB(80, 120, 200)
+        button1.Text = "Активировать скрипт"
+        button1.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button1.Font = Enum.Font.Gotham
+        button1.TextSize = 14
+        button1.Parent = tabContent
+        
+        local btn1Corner = Instance.new("UICorner")
+        btn1Corner.CornerRadius = UDim.new(0, 6)
+        btn1Corner.Parent = button1
+        
+        button1.MouseButton1Click:Connect(function()
+            print("Скрипт активирован!")
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/Gfarm'))()
+        end)
+        
+        -- Кнопка 2
+        local button2 = Instance.new("TextButton")
+        button2.Size = UDim2.new(0, 200, 0, 40)
+        button2.Position = UDim2.new(0, 20, 0, 100)
+        button2.BackgroundColor3 = Color3.fromRGB(200, 80, 80)
+        button2.Text = "Деактивировать"
+        button2.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button2.Font = Enum.Font.Gotham
+        button2.TextSize = 14
+        button2.Parent = tabContent
+        
+        local btn2Corner = Instance.new("UICorner")
+        btn2Corner.CornerRadius = UDim.new(0, 6)
+        btn2Corner.Parent = button2
+        
+        button2.MouseButton1Click:Connect(function()
+            print("Скрипт деактивирован!")
+            -- Сюда твой код для деактивации
+        end)
+        
+    elseif tabName == "AutoFarm" then
+        -- Кнопки для автоФарма
+        local farmButtons = {
+            {"Включить автоФарм", Color3.fromRGB(80, 200, 120)},
+            {"Включить автоСбор", Color3.fromRGB(120, 200, 80)},
+            {"Включить автоПродажу", Color3.fromRGB(200, 160, 80)}
+        }
+        
+        for j, btnData in ipairs(farmButtons) do
+            local farmBtn = Instance.new("TextButton")
+            farmBtn.Size = UDim2.new(0, 180, 0, 35)
+            farmBtn.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 45)
+            farmBtn.BackgroundColor3 = btnData[2]
+            farmBtn.Text = btnData[1]
+            farmBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+            farmBtn.Font = Enum.Font.Gotham
+            farmBtn.TextSize = 13
+            farmBtn.Parent = tabContent
+            
+            local farmCorner = Instance.new("UICorner")
+            farmCorner.CornerRadius = UDim.new(0, 6)
+            farmCorner.Parent = farmBtn
+            
+            farmBtn.MouseButton1Click:Connect(function()
+                print("Нажата кнопка: " .. btnData[1])
+                -- Сюда функционал для автоФарма
+            end)
+        end
+        
+    elseif tabName == "Teleports" then
+        -- Телепорты
+        local teleports = {
+            {"🏠 База", Color3.fromRGB(90, 90, 210)},
+            {"💰 Банк", Color3.fromRGB(210, 180, 60)},
+            {"⚔️ Арена", Color3.fromRGB(210, 90, 90)},
+            {"🌳 Лес", Color3.fromRGB(60, 180, 90)}
+        }
+        
+        for j, tpData in ipairs(teleports) do
+            local tpBtn = Instance.new("TextButton")
+            tpBtn.Size = UDim2.new(0, 160, 0, 32)
+            tpBtn.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 40)
+            tpBtn.BackgroundColor3 = tpData[2]
+            tpBtn.Text = tpData[1]
+            tpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+            tpBtn.Font = Enum.Font.Gotham
+            tpBtn.TextSize = 12
+            tpBtn.Parent = tabContent
+            
+            local tpCorner = Instance.new("UICorner")
+            tpCorner.CornerRadius = UDim.new(0, 6)
+            tpCorner.Parent = tpBtn
+            
+            tpBtn.MouseButton1Click:Connect(function()
+                print("Телепорт: " .. tpData[1])
+                -- Сюда код телепортации
+            end)
+        end
+        
+    elseif tabName == "Misc" then
+        -- Разные функции
+        local miscButtons = {
+            {"🔄 Респавн", Color3.fromRGB(150, 150, 150)},
+            {"🎭 Сменить внешность", Color3.fromRGB(180, 100, 200)},
+            {"📊 Информация", Color3.fromRGB(100, 160, 200)}
+        }
+        
+        for j, miscData in ipairs(miscButtons) do
+            local miscBtn = Instance.new("TextButton")
+            miscBtn.Size = UDim2.new(0, 170, 0, 35)
+            miscBtn.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 45)
+            miscBtn.BackgroundColor3 = miscData[2]
+            miscBtn.Text = miscData[1]
+            miscBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+            miscBtn.Font = Enum.Font.Gotham
+            miscBtn.TextSize = 12
+            miscBtn.Parent = tabContent
+            
+            local miscCorner = Instance.new("UICorner")
+            miscCorner.CornerRadius = UDim.new(0, 6)
+            miscCorner.Parent = miscBtn
+            
+            miscBtn.MouseButton1Click:Connect(function()
+                print("Функция: " .. miscData[1])
+                -- Сюда код для функции
+            end)
+        end
+    end
     
     -- Обработчик клика по вкладке
-    btn.MouseButton1Click:Connect(function()
-        for _, f in pairs(tabFrames) do f.Visible = false end
-        for _, b in pairs(tabButtons) do b.BackgroundColor3 = Color3.fromRGB(70, 0, 105) end
-        frame.Visible = true
-        btn.BackgroundColor3 = Color3.fromRGB(100, 0, 150)
-        playClick()
+    tabBtn.MouseButton1Click:Connect(function()
+        for _, child in ipairs(contentFrame:GetChildren()) do
+            if child:IsA("Frame") then
+                child.Visible = false
+            end
+        end
+        tabContent.Visible = true
     end)
 end
+
+-- Анимация появления
+mainFrame.Size = UDim2.new(0, 0, 0, 0)
+TweenService:Create(mainFrame, TweenInfo.new(0.3), {
+    Size = UDim2.new(0, 500, 0, 350)
+}):Play()
