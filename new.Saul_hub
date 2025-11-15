@@ -182,7 +182,7 @@ for i, tabName in ipairs(tabs) do
 local button4 = Instance.new("TextButton")
 button4.Size = UDim2.new(0, 200, 0, 40)
 button4.Position = UDim2.new(0, 20, 0, 200)
-button4.BackgroundColor3 = Color3.fromRGB(80, 180, 120)
+button4.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
 button4.Text = "Inf Jump"  -- Просто "Inf Jump"
 button4.TextColor3 = Color3.fromRGB(255, 255, 255)
 button4.Font = Enum.Font.Gotham
@@ -202,7 +202,7 @@ game:GetService("UserInputService").JumpRequest:connect(function()
 end)
 
 button4.MouseButton1Click:Connect(function()
-    InfiniteJumpEnabled = not InfiniteJumpEnabled
+    InfiniteJumpEnabled = false InfiniteJumpEnabled
     
     if InfiniteJumpEnabled then
         print("Inf Jump: ON")
@@ -210,6 +210,8 @@ button4.MouseButton1Click:Connect(function()
         print("Inf Jump: OFF")
     end
 end)
+
+
 
 -- Обработчик кнопки
 button4.MouseButton1Click:Connect(function()
