@@ -124,7 +124,7 @@ for i, tabName in ipairs(tabs) do
         local button1 = Instance.new("TextButton")
         button1.Size = UDim2.new(0, 200, 0, 40)
         button1.Position = UDim2.new(0, 20, 0, 50)
-        button1.BackgroundColor3 = Color3.fromRGB(80, 120, 200)
+        button1.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
         button1.Text = "Fly gui"
         button1.TextColor3 = Color3.fromRGB(255, 255, 255)
         button1.Font = Enum.Font.Gotham
@@ -144,7 +144,7 @@ for i, tabName in ipairs(tabs) do
         local button2 = Instance.new("TextButton")
         button2.Size = UDim2.new(0, 200, 0, 40)
         button2.Position = UDim2.new(0, 20, 0, 100)
-        button2.BackgroundColor3 = Color3.fromRGB(200, 80, 80)
+        button2.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
         button2.Text = "Noclip"
         button2.TextColor3 = Color3.fromRGB(255, 255, 255)
         button2.Font = Enum.Font.Gotham
@@ -164,7 +164,7 @@ for i, tabName in ipairs(tabs) do
         local button3 = Instance.new("TextButton")
         button3.Size = UDim2.new(0, 200, 0, 40)
         button3.Position = UDim2.new(0, 20, 0, 150)
-        button3.BackgroundColor3 = Color3.fromRGB(200, 80, 80)
+        button3.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
         button3.Text = "WalkSpeed"
         button3.TextColor3 = Color3.fromRGB(255, 255, 255)
         button3.Font = Enum.Font.Gotham
@@ -179,6 +179,44 @@ for i, tabName in ipairs(tabs) do
             print("Скрипт деактивирован!")
             -- Скрипт для walkspeed
         end)
+-- Кнопка Inf Jump
+local button4 = Instance.new("TextButton")
+button4.Size = UDim2.new(0, 200, 0, 40)
+button4.Position = UDim2.new(0, 20, 0, 200)
+button4.BackgroundColor3 = Color3.fromRGB(80, 180, 120)  -- Зеленый = включено
+button4.Text = "Inf Jump: ON"
+button4.TextColor3 = Color3.fromRGB(255, 255, 255)
+button4.Font = Enum.Font.Gotham
+button4.TextSize = 14
+button4.Parent = tabContent
+
+local btn4Corner = Instance.new("UICorner")
+btn4Corner.CornerRadius = UDim.new(0, 6)
+btn4Corner.Parent = button4
+
+-- Логика Inf Jump
+local InfiniteJumpEnabled = true
+
+game:GetService("UserInputService").JumpRequest:connect(function()
+    if InfiniteJumpEnabled then
+        game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+    end
+end)
+
+-- Обработчик кнопки
+button4.MouseButton1Click:Connect(function()
+    InfiniteJumpEnabled = not InfiniteJumpEnabled  -- Переключатель ВКЛ/ВЫКЛ
+    
+    if InfiniteJumpEnabled then
+        button4.Text = "Inf Jump: ON"
+        button4.BackgroundColor3 = Color3.fromRGB(80, 180, 120)  -- Зеленый
+        print("Inf Jump: ON")
+    else
+        button4.Text = "Inf Jump: OFF" 
+        button4.BackgroundColor3 = Color3.fromRGB(200, 80, 80)   -- Красный
+        print("Inf Jump: OFF")
+    end
+end)
         
     elseif tabName == "AutoFarm" then
         -- Кнопки для автоФарма
