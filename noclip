@@ -1,0 +1,125 @@
+-- Noclip Toggle GUI (Safe Lua Example)
+-- Put this in a LocalScript inside StarterGui
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "NoclipGUI"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Main Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 100)
+frame.Position = UDim2.new(0.3, 0, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.Active = true
+frame.Draggable = true
+frame.Parent = screenGui
+
+-- Close Button
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 25, 0, 25)
+closeBtn.Position = UDim2.new(1, -30, 0, 5)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeBtn.Parent = frame
+
+-- Minimize Button
+local minimizeBtn = Instance.new("TextButton")
+minimizeBtn.Size = UDim2.new(0, 25, 0, 25)
+minimizeBtn.Position = UDim2.new(1, -60, 0, 5)
+minimizeBtn.Text = "-"
+minimizeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+minimizeBtn.BackgroundColor3 = Color3.fromRGB(50, 120, 200)
+minimizeBtn.Parent = frame
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -70, 0, 25)
+title.Position = UDim2.new(0, 5, 0, 5)
+title.Text = "Noclip Toggle"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.BackgroundTransparency = 1
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = frame
+
+-- Toggle Button
+local toggleBtn = Instance.new("TextButton")
+toggleBtn.Size = UDim2.new(0, 180, 0, 50)
+toggleBtn.Position = UDim2.new(0, 10, 0, 35)
+toggleBtn.Text = "Noclip: OFF"
+toggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+toggleBtn.Parent = frame
+
+-- Minimized Circle
+local miniFrame = Instance.new("TextButton")
+miniFrame.Size = UDim2.new(0, 50, 0, 50)
+miniFrame.Position = UDim2.new(0.4, 0, 0.4, 0)
+miniFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+miniFrame.Text = "🚶‍♂️➡️🧱"
+miniFrame.Visible = false
+miniFrame.Active = true
+miniFrame.Draggable = true
+miniFrame.Parent = screenGui
+
+-- Logic
+local noclip = false
+local player = game.Players.LocalPlayer
+local character, humanoidRootPart
+
+local function setNoclip(state)
+	noclip = state
+	if noclip then
+		toggleBtn.Text = "Noclip: ON"
+		toggleBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+	else
+		toggleBtn.Text = "Noclip: OFF"
+		toggleBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+	end
+end
+
+-- Toggle button
+toggleBtn.MouseButton1Click:Connect(function()
+	setNoclip(not noclip)
+end)
+
+-- Close button
+closeBtn.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+-- Minimize button
+minimizeBtn.MouseButton1Click:Connect(function()
+	frame.Visible = false
+	miniFrame.Visible = true
+end)
+
+-- Restore button
+miniFrame.MouseButton1Click:Connect(function()
+	frame.Visible = true
+	miniFrame.Visible = false
+end)
+
+-- Noclip loop
+game:GetService("RunService").Stepped:Connect(function()
+	if noclip then
+		character = player.Character
+		if character then
+			for _, part in pairs(character:GetDescendants()) do
+				if part:IsA("BasePart") and part.CanCollide then
+					part.CanCollide = false
+				end
+			end
+		end
+	else
+		character = player.Character
+		if character then
+			for _, part in pairs(character:GetDescendants()) do
+				if part:IsA("BasePart") then
+					part.CanCollide = true
+				end
+			end
+		end
+	end
+end)
