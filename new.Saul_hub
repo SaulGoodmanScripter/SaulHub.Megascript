@@ -227,7 +227,7 @@ end)
         
         button5.MouseButton1Click:Connect(function()
             
-            -- Скрипт для esp
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/especially%20player%20"))()
         end)
         
     elseif tabName == "Teleports" then
