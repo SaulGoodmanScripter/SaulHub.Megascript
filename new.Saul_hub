@@ -199,15 +199,14 @@ game:GetService("UserInputService").JumpRequest:connect(function()
         game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
     end
 end)
-
 button4.MouseButton1Click:Connect(function()
-    InfiniteJumpEnabled = false InfiniteJumpEnabled
-    
-    if InfiniteJumpEnabled then
-        print("Inf Jump: ON")
-    else
-        print("Inf Jump: OFF")
-    end
+    local InfiniteJumpEnabled = true
+    game:GetService("UserInputService").JumpRequest:connect(function()
+        if InfiniteJumpEnabled then
+            game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+        end
+    end)
+    print("Inf Jump активирован!")
 end)
         
     elseif tabName == "AutoFarm" then
