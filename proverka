@@ -1,4 +1,4 @@
-8--=============Получаем все нужное===========
+--=============Получаем все нужное===========
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
@@ -75,7 +75,7 @@ SidebarLine.Parent = game:GetService("CoreGui")
 --Загружаем скрипты
 local function farm_day_and_diamond()
 
-loadstring(game:HttpGet("https://pastebin.com/raw/ukn9iZbg"))()
+loadstring(game:HttpGet("https://pastebin.com/raw/ukn9iZbg" true))()
 end
 --===========================================
 local function fly()
