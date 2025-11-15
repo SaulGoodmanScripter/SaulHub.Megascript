@@ -81,7 +81,7 @@ contentFrame.BorderSizePixel = 0
 contentFrame.Parent = mainFrame
 
 -- Вкладки
-local tabs = {"Main", "Uneversal", "Games S", "Saul Hub", "credits no"}
+local tabs = {"Main", "Uneversal", "Games ", "Saul Hub", "credits no"}
 
 for i, tabName in ipairs(tabs) do
     -- Кнопка вкладки
@@ -125,7 +125,7 @@ for i, tabName in ipairs(tabs) do
         button1.Size = UDim2.new(0, 200, 0, 40)
         button1.Position = UDim2.new(0, 20, 0, 50)
         button1.BackgroundColor3 = Color3.fromRGB(80, 120, 200)
-        button1.Text = "Активировать скрипт"
+        button1.Text = "Fly Gui"
         button1.TextColor3 = Color3.fromRGB(255, 255, 255)
         button1.Font = Enum.Font.Gotham
         button1.TextSize = 14
@@ -137,7 +137,7 @@ for i, tabName in ipairs(tabs) do
         
         button1.MouseButton1Click:Connect(function()
             print("Скрипт активирован")
-            
+end)
         
         -- Кнопка 2
         local button2 = Instance.new("TextButton")
