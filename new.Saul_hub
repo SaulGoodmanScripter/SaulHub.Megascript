@@ -209,34 +209,26 @@ button4.MouseButton1Click:Connect(function()
     print("Inf Jump активирован!")
 end)
         
-    elseif tabName == "AutoFarm" then
-        -- Кнопки для автоФарма
-        local farmButtons = {
-            {"Включить автоФарм", Color3.fromRGB(80, 200, 120)},
-            {"Включить автоСбор", Color3.fromRGB(120, 200, 80)},
-            {"Включить автоПродажу", Color3.fromRGB(200, 160, 80)}
-        }
+    elseif tabName == "Uneversalscript" then
+    -- 5 кнопка
+        local button5 = Instance.new("TextButton")
+        button5.Size = UDim2.new(0, 200, 0, 40)
+        button5.Position = UDim2.new(0, 20, 0, 150)
+        button5.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
+        button5.Text = "EspPlayer"
+        button5.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button5.Font = Enum.Font.Gotham
+        button5.TextSize = 14
+        button5.Parent = tabContent
         
-        for j, btnData in ipairs(farmButtons) do
-            local farmBtn = Instance.new("TextButton")
-            farmBtn.Size = UDim2.new(0, 180, 0, 35)
-            farmBtn.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 45)
-            farmBtn.BackgroundColor3 = btnData[2]
-            farmBtn.Text = btnData[1]
-            farmBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-            farmBtn.Font = Enum.Font.Gotham
-            farmBtn.TextSize = 13
-            farmBtn.Parent = tabContent
+        local btn5Corner = Instance.new("UICorner")
+        btn5Corner.CornerRadius = UDim.new(0, 6)
+        btn5Corner.Parent = button5
+        
+        button5.MouseButton1Click:Connect(function()
             
-            local farmCorner = Instance.new("UICorner")
-            farmCorner.CornerRadius = UDim.new(0, 6)
-            farmCorner.Parent = farmBtn
-            
-            farmBtn.MouseButton1Click:Connect(function()
-                print("Нажата кнопка: " .. btnData[1])
-                -- Сюда функционал для автоФарма
-            end)
-        end
+            -- Скрипт для esp
+        end)
         
     elseif tabName == "Teleports" then
         -- Телепорты
