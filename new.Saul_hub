@@ -179,12 +179,11 @@ for i, tabName in ipairs(tabs) do
             print("Скрипт деактивирован!")
             -- Скрипт для walkspeed
         end)
--- Кнопка Inf Jump
 local button4 = Instance.new("TextButton")
 button4.Size = UDim2.new(0, 200, 0, 40)
 button4.Position = UDim2.new(0, 20, 0, 200)
-button4.BackgroundColor3 = Color3.fromRGB(80, 180, 120)  -- Зеленый = включено
-button4.Text = "Inf Jump: ON"
+button4.BackgroundColor3 = Color3.fromRGB(80, 180, 120)
+button4.Text = "Inf Jump"  -- Просто "Inf Jump"
 button4.TextColor3 = Color3.fromRGB(255, 255, 255)
 button4.Font = Enum.Font.Gotham
 button4.TextSize = 14
@@ -194,12 +193,21 @@ local btn4Corner = Instance.new("UICorner")
 btn4Corner.CornerRadius = UDim.new(0, 6)
 btn4Corner.Parent = button4
 
--- Логика Inf Jump
 local InfiniteJumpEnabled = true
 
 game:GetService("UserInputService").JumpRequest:connect(function()
     if InfiniteJumpEnabled then
         game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+    end
+end)
+
+button4.MouseButton1Click:Connect(function()
+    InfiniteJumpEnabled = not InfiniteJumpEnabled
+    
+    if InfiniteJumpEnabled then
+        print("Inf Jump: ON")
+    else
+        print("Inf Jump: OFF")
     end
 end)
 
