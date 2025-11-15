@@ -38,7 +38,7 @@ local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, -80, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
 title.BackgroundTransparency = 1
-title.Text = "KRNL HUB"
+title.Text = "SAUL HUB"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 16
@@ -81,7 +81,7 @@ contentFrame.BorderSizePixel = 0
 contentFrame.Parent = mainFrame
 
 -- Вкладки
-local tabs = {"Main", "Uneversalscript", "Games Script", "Saul Hub scripts"}
+local tabs = {"Main", "Uneversal", "Games S", "Saul Hub", "credits no"}
 
 for i, tabName in ipairs(tabs) do
     -- Кнопка вкладки
@@ -111,7 +111,7 @@ for i, tabName in ipairs(tabs) do
     contentTitle.Size = UDim2.new(1, -20, 0, 30)
     contentTitle.Position = UDim2.new(0, 10, 0, 10)
     contentTitle.BackgroundTransparency = 1
-    contentTitle.Text = tabName .. " Features"
+    contentTitle.Text = tabName .. " script"
     contentTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     contentTitle.Font = Enum.Font.GothamBold
     contentTitle.TextSize = 18
@@ -136,9 +136,8 @@ for i, tabName in ipairs(tabs) do
         btn1Corner.Parent = button1
         
         button1.MouseButton1Click:Connect(function()
-            print("Скрипт активирован!")
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/Gfarm'))()
-        end)
+            print("Скрипт активирован")
+            
         
         -- Кнопка 2
         local button2 = Instance.new("TextButton")
