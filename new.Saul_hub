@@ -178,6 +178,7 @@ for i, tabName in ipairs(tabs) do
         button3.MouseButton1Click:Connect(function()
             print("Скрипт деактивирован!") loadstring(game:HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/WalkSpeed%20"))()
         end)
+--кнопка 4
 local button4 = Instance.new("TextButton")
 button4.Size = UDim2.new(0, 200, 0, 40)
 button4.Position = UDim2.new(0, 20, 0, 200)
@@ -228,6 +229,81 @@ end)
         button5.MouseButton1Click:Connect(function()
             
             loadstring(game:HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/especially%20player%20"))()
+        end)
+-- Кнопка 6
+        local button6 = Instance.new("TextButton")
+        button6.Size = UDim2.new(0, 100, 0, 40)
+        button6.Position = UDim2.new(0, 20, 0, 150)
+        button6.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
+        button6.Text = "anti afk"
+        button6.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button6.Font = Enum.Font.Gotham
+        button6.TextSize = 14
+        button6.Parent = tabContent
+        
+        local btn6Corner = Instance.new("UICorner")
+        btn6Corner.CornerRadius = UDim.new(0, 6)
+        btn6Corner.Parent = button6
+        
+        button6.MouseButton1Click:Connect(function()
+            
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ArgetnarYT/scripts/main/AntiAfk2.lua"))()
+        end)
+
+-- Кнопка 7
+        local button7 = Instance.new("TextButton")
+        button7.Size = UDim2.new(0, 200, 0, 40)
+        button7.Position = UDim2.new(0, 20, 0, 200)
+        button7.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
+        button7.Text = "invisible"
+        button7.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button7.Font = Enum.Font.Gotham
+        button7.TextSize = 14
+        button7.Parent = tabContent
+        
+        local btn7Corner = Instance.new("UICorner")
+        btn7Corner.CornerRadius = UDim.new(0, 6)
+        btn7Corner.Parent = button5
+        
+        button7.MouseButton1Click:Connect(function()
+            loadstring(game:HttpGet('https://pastebin.com/raw/3Rnd9rHf'))()
+        end)
+-- Кнопка 8
+        local button8 = Instance.new("TextButton")
+        button8.Size = UDim2.new(0, 200, 0, 40)
+        button8.Position = UDim2.new(0, 20, 0, 250)
+        button8.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
+        button8.Text = "Walkfling"
+        button8.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button8.Font = Enum.Font.Gotham
+        button8.TextSize = 14
+        button5.Parent = tabContent
+        
+        local btn8Corner = Instance.new("UICorner")
+        btn8Corner.CornerRadius = UDim.new(0, 6)
+        btn8Corner.Parent = button8
+        
+        button8.MouseButton1Click:Connect(function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/7dksbpxuw8/Other/refs/heads/main/Walkfling"))()
+        end)
+-- Кнопка 9
+        local button9 = Instance.new("TextButton")
+        button9.Size = UDim2.new(0, 200, 0, 40)
+        button9.Position = UDim2.new(0, 20, 0, 300)
+        button9.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
+        button9.Text = "emotes"
+        button9.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button9.Font = Enum.Font.Gotham
+        button9.TextSize = 14
+        button9.Parent = tabContent
+        
+        local btn9Corner = Instance.new("UICorner")
+        btn9Corner.CornerRadius = UDim.new(0, 6)
+        btn9Corner.Parent = button5
+        
+        button9.MouseButton1Click:Connect(function()
+loadstring(game:HttpGet("https://pastebin.com/raw/NXZp97wG"))()
+            
         end)
         
     elseif tabName == "Teleports" then
