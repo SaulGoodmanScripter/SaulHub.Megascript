@@ -157,7 +157,7 @@ for i, tabName in ipairs(tabs) do
         
         button2.MouseButton1Click:Connect(function()
             print("Скрипт деактивирован!")
-            loadstring(game:HttpGet ("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/noclip"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/noclip"))()
         end)
 
 -- Кнопка 3
@@ -176,7 +176,7 @@ for i, tabName in ipairs(tabs) do
         btn3Corner.Parent = button3
         
         button3.MouseButton1Click:Connect(function()
-            print("Скрипт деактивирован!") loadstring(game.HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/WalkSpeed%20"))()
+            print("Скрипт деактивирован!") loadstring(game:HttpGet("https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/WalkSpeed%20"))()
         end)
 local button4 = Instance.new("TextButton")
 button4.Size = UDim2.new(0, 200, 0, 40)
@@ -206,23 +206,6 @@ button4.MouseButton1Click:Connect(function()
     if InfiniteJumpEnabled then
         print("Inf Jump: ON")
     else
-        print("Inf Jump: OFF")
-    end
-end)
-
-
-
--- Обработчик кнопки
-button4.MouseButton1Click:Connect(function()
-    InfiniteJumpEnabled = not InfiniteJumpEnabled  -- Переключатель ВКЛ/ВЫКЛ
-    
-    if InfiniteJumpEnabled then
-        button4.Text = "Inf Jump: ON"
-        button4.BackgroundColor3 = Color3.fromRGB(80, 180, 120)  -- Зеленый
-        print("Inf Jump: ON")
-    else
-        button4.Text = "Inf Jump: OFF" 
-        button4.BackgroundColor3 = Color3.fromRGB(200, 80, 80)   -- Красный
         print("Inf Jump: OFF")
     end
 end)
