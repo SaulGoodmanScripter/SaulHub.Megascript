@@ -1,0 +1,143 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Создаем интерфейс
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "GameInfoGUI"
+screenGui.Parent = game:GetService("CoreGui")
+
+-- Главный фрейм
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 300, 0, 200)
+mainFrame.Position = UDim2.new(0.5, -150, 0, 20)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 8)
+corner.Parent = mainFrame
+
+-- Верхняя панель
+local topBar = Instance.new("Frame")
+topBar.Size = UDim2.new(1, 0, 0, 40)
+topBar.BackgroundColor3 = Color3.fromRGB(45, 45, 60)
+topBar.BorderSizePixel = 0
+topBar.Parent = mainFrame
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -40, 1, 0)
+title.Position = UDim2.new(0, 10, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "🎮 Game Info Tool from saul hub"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 16
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = topBar
+
+-- Кнопка закрытия
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0.5, -15)
+closeBtn.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 14
+closeBtn.Parent = topBar
+
+local btnCorner = Instance.new("UICorner")
+btnCorner.CornerRadius = UDim.new(1, 0)
+btnCorner.Parent = closeBtn
+
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+-- Получаем информацию об игре
+local placeId = game.PlaceId
+local success, gameInfo = pcall(function()
+    return game:GetService("MarketplaceService"):GetProductInfo(placeId)
+end)
+
+local gameName = success and gameInfo.Name or "Неизвестно"
+local creatorName = success and gameInfo.Creator.Name or "Неизвестно"
+
+-- Информация об игре
+local infoFrame = Instance.new("Frame")
+infoFrame.Size = UDim2.new(1, -20, 0, 80)
+infoFrame.Position = UDim2.new(0, 10, 0, 50)
+infoFrame.BackgroundTransparency = 1
+infoFrame.Parent = mainFrame
+
+local idLabel = Instance.new("TextLabel")
+idLabel.Size = UDim2.new(1, 0, 0, 25)
+idLabel.Position = UDim2.new(0, 0, 0, 0)
+idLabel.BackgroundTransparency = 1
+idLabel.Text = "🆔 ID: " .. placeId
+idLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+idLabel.Font = Enum.Font.Gotham
+idLabel.TextSize = 14
+idLabel.TextXAlignment = Enum.TextXAlignment.Left
+idLabel.Parent = infoFrame
+
+local nameLabel = Instance.new("TextLabel")
+nameLabel.Size = UDim2.new(1, 0, 0, 25)
+nameLabel.Position = UDim2.new(0, 0, 0, 30)
+nameLabel.BackgroundTransparency = 1
+nameLabel.Text = "📝 Название: " .. gameName
+nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+nameLabel.Font = Enum.Font.Gotham
+nameLabel.TextSize = 14
+nameLabel.TextXAlignment = Enum.TextXAlignment.Left
+nameLabel.TextWrapped = true
+nameLabel.Parent = infoFrame
+
+local creatorLabel = Instance.new("TextLabel")
+creatorLabel.Size = UDim2.new(1, 0, 0, 25)
+creatorLabel.Position = UDim2.new(0, 0, 0, 60)
+creatorLabel.BackgroundTransparency = 1
+creatorLabel.Text = "👤 Создатель: " .. creatorName
+creatorLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+creatorLabel.Font = Enum.Font.Gotham
+creatorLabel.TextSize = 14
+creatorLabel.TextXAlignment = Enum.TextXAlignment.Left
+creatorLabel.Parent = infoFrame
+
+-- Кнопка копирования
+local copyBtn = Instance.new("TextButton")
+copyBtn.Size = UDim2.new(1, -20, 0, 40)
+copyBtn.Position = UDim2.new(0, 10, 0, 140)
+copyBtn.BackgroundColor3 = Color3.fromRGB(80, 180, 255)
+copyBtn.Text = "📋 Скопировать ID"
+copyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyBtn.Font = Enum.Font.GothamBold
+copyBtn.TextSize = 16
+copyBtn.Parent = mainFrame
+
+local copyCorner = Instance.new("UICorner")
+copyCorner.CornerRadius = UDim.new(0, 6)
+copyCorner.Parent = copyBtn
+
+copyBtn.MouseButton1Click:Connect(function()
+    if setclipboard then
+        setclipboard(placeId)
+        copyBtn.Text = "✅ Скопировано!"
+        copyBtn.BackgroundColor3 = Color3.fromRGB(100, 220, 100)
+        
+        -- Возвращаем исходный текст через 2 секунды
+        wait(2)
+        copyBtn.Text = "📋 Скопировать ID"
+        copyBtn.BackgroundColor3 = Color3.fromRGB(80, 180, 255)
+    else
+        copyBtn.Text = "❌ Ошибка копирования"
+        copyBtn.BackgroundColor3 = Color3.fromRGB(220, 80, 80)
+    end
+end)
+
+print("🎮 Game Info Tool загружен!")
+print("ID игры: " .. placeId)
+print("Название: " .. gameName)
