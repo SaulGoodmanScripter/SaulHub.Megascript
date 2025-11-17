@@ -163,59 +163,128 @@ for i, tabName in ipairs(tabs) do
     contentTitle.Parent = tabContent
 
     -- Содержимое вкладок
-    if tabName == "Main" then
-        local mainButtons = {
-            {"Fly GUI", "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/fly"},
-            {"Noclip", "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/noclip"},
-            {"WalkSpeed", "https://raw.githubusercontent.com/SaulGoodmanScripter/SaulHub.Megascript/refs/heads/main/WalkSpeed%20"}
-        }
+    elseif tabName == "Games" then
+    local currentGameId = game.PlaceId
+    local currentGameData = gameDatabase[currentGameId]
+    local yPosition = 50
 
-        for j, btnData in ipairs(mainButtons) do
+    -- Создаем ScrollingFrame для прокрутки
+    local scrollFrame = Instance.new("ScrollingFrame")
+    scrollFrame.Size = UDim2.new(1, 0, 1, 0)
+    scrollFrame.Position = UDim2.new(0, 0, 0, 0)
+    scrollFrame.BackgroundTransparency = 1
+    scrollFrame.BorderSizePixel = 0
+    scrollFrame.ScrollBarThickness = 6
+    scrollFrame.ScrollBarImageColor3 = Color3.fromRGB(100, 100, 120)
+    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0) -- Будет меняться автоматически
+    scrollFrame.Parent = tabContent
+
+    -- Если игра поддерживается
+    if currentGameData then
+        local currentGameLabel = Instance.new("TextLabel")
+        currentGameLabel.Text = "🎯 СКРИПТЫ ДЛЯ ТЕКУЩЕЙ ИГРЫ:"
+        currentGameLabel.Size = UDim2.new(1, -20, 0, 25)
+        currentGameLabel.Position = UDim2.new(0, 10, 0, yPosition)
+        currentGameLabel.BackgroundTransparency = 1
+        currentGameLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
+        currentGameLabel.Font = Enum.Font.GothamBold
+        currentGameLabel.TextSize = 16
+        currentGameLabel.TextXAlignment = Enum.TextXAlignment.Left
+        currentGameLabel.Parent = scrollFrame
+
+        yPosition = yPosition + 35
+
+        -- Кнопки для текущей игры
+        for j, scriptData in ipairs(currentGameData.scripts) do
             local button = Instance.new("TextButton")
-            button.Size = UDim2.new(0, 200, 0, 40)
-            button.Position = UDim2.new(0, 20, 0, 50 + (j-1) * 50)
-            button.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-            button.Text = btnData[1]
+            button.Size = UDim2.new(0, 250, 0, 40)
+            button.Position = UDim2.new(0, 20, 0, yPosition)
+            button.BackgroundColor3 = scriptData[3] or Color3.fromRGB(100, 200, 100)
+            button.Text = scriptData[1]
             button.TextColor3 = Color3.fromRGB(255, 255, 255)
             button.Font = Enum.Font.Gotham
-            button.TextSize = 14
-            button.Parent = tabContent
+            button.TextSize = 13
+            button.Parent = scrollFrame
 
             local btnCorner = Instance.new("UICorner")
             btnCorner.CornerRadius = UDim.new(0, 6)
             btnCorner.Parent = button
 
             button.MouseButton1Click:Connect(function()
-                print("Загружаем: " .. btnData[1])
-                loadstring(game:HttpGet(btnData[2]))()
+                print("Загружаем: " .. scriptData[1])
+                loadstring(game:HttpGet(scriptData[2]))()
             end)
+
+            yPosition = yPosition + 50
         end
 
-        -- Кнопка Infinite Jump
-        local infJumpBtn = Instance.new("TextButton")
-        infJumpBtn.Size = UDim2.new(0, 200, 0, 40)
-        infJumpBtn.Position = UDim2.new(0, 20, 0, 200)
-        infJumpBtn.BackgroundColor3 = Color3.fromRGB(140, 80, 220)
-        infJumpBtn.Text = "Inf Jump: OFF"
-        infJumpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-        infJumpBtn.Font = Enum.Font.Gotham
-        infJumpBtn.TextSize = 14
-        infJumpBtn.Parent = tabContent
+        yPosition = yPosition + 20
+    else
+        -- Если игра НЕ поддерживается
+        local noScriptsLabel = Instance.new("TextLabel")
+        noScriptsLabel.Text = "❌ Для этой игры пока нет скриптов"
+        noScriptsLabel.Size = UDim2.new(1, -20, 0, 60)
+        noScriptsLabel.Position = UDim2.new(0, 10, 0, yPosition)
+        noScriptsLabel.BackgroundTransparency = 1
+        noScriptsLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+        noScriptsLabel.Font = Enum.Font.Gotham
+        noScriptsLabel.TextSize = 14
+        noScriptsLabel.TextWrapped = true
+        noScriptsLabel.Parent = scrollFrame
 
-        local infJumpCorner = Instance.new("UICorner")
-        infJumpCorner.CornerRadius = UDim.new(0, 6)
-        infJumpCorner.Parent = infJumpBtn
+        yPosition = yPosition + 70
+    end
 
-        infJumpBtn.MouseButton1Click:Connect(function()
-            InfiniteJumpEnabled = not InfiniteJumpEnabled
-            if InfiniteJumpEnabled then
-                infJumpBtn.Text = "Inf Jump: ON"
-                print("Inf Jump включен!")
-            else
-                infJumpBtn.Text = "Inf Jump: OFF"
-                print("Inf Jump выключен!")
-            end
+    -- Разделитель
+    local separator = Instance.new("Frame")
+    separator.Size = UDim2.new(1, -20, 0, 2)
+    separator.Position = UDim2.new(0, 10, 0, yPosition)
+    separator.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    separator.BorderSizePixel = 0
+    separator.Parent = scrollFrame
+
+    yPosition = yPosition + 20
+
+    -- Все доступные игры
+    local allGamesTitle = Instance.new("TextLabel")
+    allGamesTitle.Text = "📚 ВСЕ ДОСТУПНЫЕ ИГРЫ:"
+    allGamesTitle.Size = UDim2.new(1, -20, 0, 25)
+    allGamesTitle.Position = UDim2.new(0, 10, 0, yPosition)
+    allGamesTitle.BackgroundTransparency = 1
+    allGamesTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
+    allGamesTitle.Font = Enum.Font.GothamBold
+    allGamesTitle.TextSize = 16
+    allGamesTitle.TextXAlignment = Enum.TextXAlignment.Left
+    allGamesTitle.Parent = scrollFrame
+
+    yPosition = yPosition + 35
+
+    -- Список всех игр из базы данных
+    for gameId, gameData in pairs(gameDatabase) do
+        local gameBtn = Instance.new("TextButton")
+        gameBtn.Size = UDim2.new(0, 250, 0, 35)
+        gameBtn.Position = UDim2.new(0, 20, 0, yPosition)
+        gameBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+        gameBtn.Text = gameData.name
+        gameBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        gameBtn.Font = Enum.Font.Gotham
+        gameBtn.TextSize = 13
+        gameBtn.Parent = scrollFrame
+
+        local btnCorner = Instance.new("UICorner")
+        btnCorner.CornerRadius = UDim.new(0, 6)
+        btnCorner.Parent = gameBtn
+
+        gameBtn.MouseButton1Click:Connect(function()
+            print("Выбрана игра: " .. gameData.name)
         end)
+
+        yPosition = yPosition + 40
+    end
+
+    -- Автоматическое обновление размера прокрутки
+    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, yPosition + 10)
+end
 
     elseif tabName == "Universal" then
         local universalButtons = {
