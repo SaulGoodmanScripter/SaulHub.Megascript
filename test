@@ -93,31 +93,26 @@ local gameDatabase = {
     [4924922222] = { -- Brookhaven
         name = "Brookhaven",
         scripts = {
-            {"🐀R4d troll script", "https://raw.githubusercontent.com/M1ZZ001/BrookhavenR4D/main/Brookhaven%20R4D%20Script", Color3.fromRGB(139,0,0)},
-            {"🤡Troll script", "https://raw.githubusercontent.com/as6cd0/SP_Hub/refs/heads/main/Brookhaven", Color3.fromRGB(128,0,32)}
+            {"🐀 R4d troll script", "https://raw.githubusercontent.com/M1ZZ001/BrookhavenR4D/main/Brookhaven%20R4D%20Script", Color3.fromRGB(139, 0, 0)},
+            {"🤡 Troll script", "https://raw.githubusercontent.com/as6cd0/SP_Hub/refs/heads/main/Brookhaven", Color3.fromRGB(128, 0, 32)}
         }
     },
-    [537413528] = { -- build A Boat For Treasure 
+    [537413528] = { -- Build A Boat For Treasure 
         name = "Build A Boat For Treasure",
         scripts = {
-            {"⛵️Build A Boat For Treasure script",
-"https://raw.githubusercontent.com/TheRealAsu/BABFT/refs/heads/main/Source.lua",
-color3.fromRGB(80,180,255)}
+            {"⛵ Build A Boat Script", "https://raw.githubusercontent.com/TheRealAsu/BABFT/refs/heads/main/Source.lua", Color3.fromRGB(80, 180, 255)}
         }
-     },
-    [126884695634066] = { -- grow a garden
-        name = "Grow a Garden"
+    },
+    [126884695634066] = { -- Grow a Garden
+        name = "Grow a Garden",
         scripts = {
-             {"🌱Grow a Garden script",
-"https://rawscripts.net/raw/Grow-a-Garden-NoLag-Hub-no-key-38699",
-color3.fromRGB(100,200,100)}
-         }
-     },
-
-    [109983668079237] = { -- steal a brainrot 
-        name = "Steal a brainrot",
+            {"🌱 Grow a Garden Script", "https://rawscripts.net/raw/Grow-a-Garden-NoLag-Hub-no-key-38699", Color3.fromRGB(100, 200, 100)}
+        }
+    },
+    [109983668079237] = { -- Steal a Brainrot 
+        name = "Steal a Brainrot",
         scripts = {
-            {"🧠Steal a brainrot script", "https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua", Color3.fromRGB(255,200,200)}
+            {"🧠 Steal a Brainrot Script", "https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua", Color3.fromRGB(255, 200, 200)}
         }
     },
     [2753915549] = { -- Blox Fruits
