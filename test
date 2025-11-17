@@ -97,6 +97,23 @@ local gameDatabase = {
             {"🤡Troll script", "https://raw.githubusercontent.com/as6cd0/SP_Hub/refs/heads/main/Brookhaven", Color3.fromRGB(128,0,32)}
         }
     },
+    [537413528] = { -- build A Boat For Treasure 
+        name = "Build A Boat For Treasure",
+        scripts = {
+            {"⛵️Build A Boat For Treasure script",
+"https://raw.githubusercontent.com/TheRealAsu/BABFT/refs/heads/main/Source.lua",
+color3.fromRGB(80,180,255)}
+        }
+     },
+    [126884695634066] = { -- grow a garden
+        name = "Grow a Garden"
+        scripts = {
+             {"🌱Grow a Garden script",
+"https://rawscripts.net/raw/Grow-a-Garden-NoLag-Hub-no-key-38699",
+color3.fromRGB(100,200,100)}
+         }
+     },
+
     [109983668079237] = { -- steal a brainrot 
         name = "Steal a brainrot",
         scripts = {
