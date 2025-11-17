@@ -88,8 +88,28 @@ local gameDatabase = {
         scripts = {
             {"🌙 Auto Farm (Days/Diamonds)", "https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/Gfarm", Color3.fromRGB(100, 200, 255)},
             {"⚡ Voidware Loader", "https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/loader.lua", Color3.fromRGB(150, 100, 255)}
+    [4924922222] = { -- Brookhaven
+        
+        name = "Brookhaven"
+        scripts = {
+            {"🐀R4d troll script",
+"https://raw.githubusercontent.com/M1ZZ001/BrookhavenR4D/main/Brookhaven%20R4D%20Script",
+color3.fromRGB(139,0,0)},
+            {"🤡Troll script",
+"https://raw.githubusercontent.com/as6cd0/SP_Hub/refs/heads/main/Brookhaven",
+color3.fromRGB(128,0,32),
         }
     },
+    [109983668079237] = { -- steal a brainrot 
+
+        name = "Steal a brainrot"
+        scripts = {
+            {"🧠Steal a brainrot script",
+"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua",
+color3.fromRGB(255,200,200)}
+         }
+    },
+
     [2753915549] = { -- Blox Fruits
         name = "Blox Fruits",
         scripts = {
