@@ -106,7 +106,7 @@ local gameDatabase = {
     [126884695634066] = { -- Grow a Garden
         name = "Grow a Garden",
         scripts = {
-            {"🌱 Grow a Garden Script", "https://rawscripts.net/raw/Grow-a-Garden-NoLag-Hub-no-key-38699", Color3.fromRGB(100, 200, 100)}
+            {"🌱 Grow a Garden Script", "", Color3.fromRGB(100, 200, 100)}
         }
     },
     [109983668079237] = { -- Steal a Brainrot 
