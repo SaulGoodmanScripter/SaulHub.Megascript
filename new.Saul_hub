@@ -151,7 +151,10 @@ contentCorner.Parent = contentFrame
 
 -- БАЗА ДАННЫХ ИГР
 local gameDatabase = {
-    [79546208627805] = { -- 99 Nights in Forest
+  [126509999114328] = {name = "99 Nights in Forest", scripts = {{"🌙 Auto Farm (Days/Diamonds)", "https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/Gfarm", Color3.fromRGB(100, 200, 255)}, {"⚡ Voidware Loader", "https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/loader.lua", Color3.fromRGB(150, 100, 255)}
+}
+},  
+[79546208627805] = { -- 99 Nights in Forest lobby 
         name = "99 Nights in Forest",
         scripts = {
             {"🌙 Auto Farm (Days/Diamonds)", "https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/Gfarm", Color3.fromRGB(100, 200, 255)},
