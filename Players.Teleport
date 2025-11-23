@@ -1,0 +1,388 @@
+-- Players Teleports for Saul Hub
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local TweenService = game:GetService("TweenService")
+
+-- Цветовая схема Saul Hub
+local SAUL_COLORS = {
+    Background = Color3.fromRGB(25, 25, 35),
+    Header = Color3.fromRGB(45, 35, 60),
+    Button = Color3.fromRGB(65, 45, 85),
+    ButtonHover = Color3.fromRGB(85, 65, 105),
+    Text = Color3.fromRGB(255, 255, 255),
+    Accent = Color3.fromRGB(140, 70, 160),
+    Search = Color3.fromRGB(40, 40, 55),
+    SearchText = Color3.fromRGB(200, 200, 220)
+}
+
+-- Функция для получения всех игроков на сервере
+function GetAllPlayers()
+    local players = {}
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character then
+            table.insert(players, player)
+        end
+    end
+    return players
+end
+
+-- Функция для получения позиции игрока
+function GetPlayerPosition(player)
+    if player and player.Character then
+        local humanoidRootPart = player.Character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            return humanoidRootPart.Position
+        end
+    end
+    return nil
+end
+
+-- Функция телепортации к игроку
+function TeleportToPlayer(targetPlayer)
+    if not LocalPlayer.Character then 
+        warn("No character found!")
+        return 
+    end
+    
+    local targetPosition = GetPlayerPosition(targetPlayer)
+    if not targetPosition then 
+        warn("Cannot find target player position!")
+        return 
+    end
+    
+    local humanoidRootPart = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart then
+        humanoidRootPart.CFrame = CFrame.new(targetPosition + Vector3.new(0, 3, 0))
+        print("Teleported to " .. targetPlayer.Name)
+    end
+end
+
+-- Создание красивого UI
+function CreateTeleportGUI()
+    -- Основной GUI
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "SaulHubTeleportGUI"
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    
+    -- Главный фрейм
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Size = UDim2.new(0, 320, 0, 450)
+    MainFrame.Position = UDim2.new(0, 20, 0, 20)
+    MainFrame.BackgroundColor3 = SAUL_COLORS.Background
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Parent = ScreenGui
+    
+    -- Скругление углов
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 8)
+    UICorner.Parent = MainFrame
+    
+    -- Тень
+    local UIStroke = Instance.new("UIStroke")
+    UIStroke.Color = SAUL_COLORS.Accent
+    UIStroke.Thickness = 2
+    UIStroke.Parent = MainFrame
+    
+    -- Хедер
+    local HeaderFrame = Instance.new("Frame")
+    HeaderFrame.Size = UDim2.new(1, 0, 0, 60)
+    HeaderFrame.BackgroundColor3 = SAUL_COLORS.Header
+    HeaderFrame.BorderSizePixel = 0
+    HeaderFrame.Parent = MainFrame
+    
+    local HeaderCorner = Instance.new("UICorner")
+    HeaderCorner.CornerRadius = UDim.new(0, 8)
+    HeaderCorner.Parent = HeaderFrame
+    
+    -- Заголовок
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Size = UDim2.new(1, 0, 0.6, 0)
+    TitleLabel.Position = UDim2.new(0, 0, 0, 5)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = "Players Teleports"
+    TitleLabel.TextColor3 = SAUL_COLORS.Text
+    TitleLabel.TextScaled = true
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.Parent = HeaderFrame
+    
+    -- Подзаголовок
+    local SubtitleLabel = Instance.new("TextLabel")
+    SubtitleLabel.Size = UDim2.new(1, 0, 0.4, 0)
+    SubtitleLabel.Position = UDim2.new(0, 0, 0, 35)
+    SubtitleLabel.BackgroundTransparency = 1
+    SubtitleLabel.Text = "for Saul Hub"
+    SubtitleLabel.TextColor3 = SAUL_COLORS.Accent
+    SubtitleLabel.TextScaled = true
+    SubtitleLabel.Font = Enum.Font.Gotham
+    SubtitleLabel.Parent = HeaderFrame
+    
+    -- Кнопка закрытия
+    local CloseButton = Instance.new("TextButton")
+    CloseButton.Size = UDim2.new(0, 30, 0, 30)
+    CloseButton.Position = UDim2.new(1, -35, 0.5, -15)
+    CloseButton.BackgroundColor3 = SAUL_COLORS.Button
+    CloseButton.TextColor3 = SAUL_COLORS.Text
+    CloseButton.Text = "X"
+    CloseButton.Font = Enum.Font.GothamBold
+    CloseButton.TextSize = 16
+    CloseButton.Parent = HeaderFrame
+    
+    local CloseCorner = Instance.new("UICorner")
+    CloseCorner.CornerRadius = UDim.new(0, 6)
+    CloseCorner.Parent = CloseButton
+    
+    -- Панель поиска
+    local SearchFrame = Instance.new("Frame")
+    SearchFrame.Size = UDim2.new(1, -20, 0, 40)
+    SearchFrame.Position = UDim2.new(0, 10, 0, 70)
+    SearchFrame.BackgroundColor3 = SAUL_COLORS.Search
+    SearchFrame.BorderSizePixel = 0
+    SearchFrame.Parent = MainFrame
+    
+    local SearchCorner = Instance.new("UICorner")
+    SearchCorner.CornerRadius = UDim.new(0, 6)
+    SearchCorner.Parent = SearchFrame
+    
+    -- Иконка поиска
+    local SearchIcon = Instance.new("TextLabel")
+    SearchIcon.Size = UDim2.new(0, 30, 1, 0)
+    SearchIcon.BackgroundTransparency = 1
+    SearchIcon.Text = "🔍"
+    SearchIcon.TextColor3 = SAUL_COLORS.Accent
+    SearchIcon.Font = Enum.Font.Gotham
+    SearchIcon.TextSize = 16
+    SearchIcon.Parent = SearchFrame
+    
+    -- Поле поиска
+    local SearchBox = Instance.new("TextBox")
+    SearchBox.Size = UDim2.new(1, -40, 1, 0)
+    SearchBox.Position = UDim2.new(0, 35, 0, 0)
+    SearchBox.BackgroundTransparency = 1
+    SearchBox.PlaceholderText = "Поиск игроков..."
+    SearchBox.PlaceholderColor3 = SAUL_COLORS.SearchText
+    SearchBox.Text = ""
+    SearchBox.TextColor3 = SAUL_COLORS.Text
+    SearchBox.Font = Enum.Font.Gotham
+    SearchBox.TextSize = 14
+    SearchBox.TextXAlignment = Enum.TextXAlignment.Left
+    SearchBox.ClearTextOnFocus = false
+    SearchBox.Parent = SearchFrame
+    
+    -- Счетчик игроков
+    local PlayerCountLabel = Instance.new("TextLabel")
+    PlayerCountLabel.Size = UDim2.new(1, -20, 0, 20)
+    PlayerCountLabel.Position = UDim2.new(0, 10, 0, 115)
+    PlayerCountLabel.BackgroundTransparency = 1
+    PlayerCountLabel.Text = "Игроков найдено: 0"
+    PlayerCountLabel.TextColor3 = SAUL_COLORS.Accent
+    PlayerCountLabel.Font = Enum.Font.Gotham
+    PlayerCountLabel.TextSize = 12
+    PlayerCountLabel.TextXAlignment = Enum.TextXAlignment.Left
+    PlayerCountLabel.Parent = MainFrame
+    
+    -- Фрейм с игроками
+    local PlayersFrame = Instance.new("ScrollingFrame")
+    PlayersFrame.Size = UDim2.new(1, -20, 1, -145)
+    PlayersFrame.Position = UDim2.new(0, 10, 0, 135)
+    PlayersFrame.BackgroundTransparency = 1
+    PlayersFrame.ScrollBarThickness = 4
+    PlayersFrame.ScrollBarImageColor3 = SAUL_COLORS.Accent
+    PlayersFrame.Parent = MainFrame
+    
+    local UIListLayout = Instance.new("UIListLayout")
+    UIListLayout.Padding = UDim.new(0, 8)
+    UIListLayout.Parent = PlayersFrame
+    
+    -- Функция создания кнопки игрока
+    function CreatePlayerButton(player)
+        local Button = Instance.new("TextButton")
+        Button.Size = UDim2.new(1, 0, 0, 45)
+        Button.BackgroundColor3 = SAUL_COLORS.Button
+        Button.TextColor3 = SAUL_COLORS.Text
+        Button.Text = player.Name
+        Button.Font = Enum.Font.Gotham
+        Button.TextSize = 14
+        Button.AutoButtonColor = true
+        
+        local ButtonCorner = Instance.new("UICorner")
+        ButtonCorner.CornerRadius = UDim.new(0, 6)
+        ButtonCorner.Parent = Button
+        
+        local ButtonStroke = Instance.new("UIStroke")
+        ButtonStroke.Color = SAUL_COLORS.Accent
+        ButtonStroke.Thickness = 1
+        ButtonStroke.Parent = Button
+        
+        -- Анимация при наведении
+        local function hoverAnimation(hovering)
+            local targetColor = hovering and SAUL_COLORS.ButtonHover or SAUL_COLORS.Button
+            local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+            local tween = TweenService:Create(Button, tweenInfo, {BackgroundColor3 = targetColor})
+            tween:Play()
+        end
+        
+        Button.MouseEnter:Connect(function()
+            hoverAnimation(true)
+        end)
+        
+        Button.MouseLeave:Connect(function()
+            hoverAnimation(false)
+        end)
+        
+        Button.MouseButton1Click:Connect(function()
+            TeleportToPlayer(player)
+            -- Анимация нажатия
+            local originalSize = Button.Size
+            local tweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+            local tween1 = TweenService:Create(Button, tweenInfo, {Size = originalSize - UDim2.new(0, 10, 0, 5)})
+            local tween2 = TweenService:Create(Button, tweenInfo, {Size = originalSize})
+            
+            tween1:Play()
+            tween1.Completed:Connect(function()
+                tween2:Play()
+            end)
+        end)
+        
+        return Button
+    end
+    
+    -- Функция фильтрации игроков
+    local function FilterPlayers(searchText)
+        local allPlayers = GetAllPlayers()
+        local filteredPlayers = {}
+        
+        if searchText == "" or searchText == nil then
+            return allPlayers
+        end
+        
+        searchText = string.lower(searchText)
+        for _, player in pairs(allPlayers) do
+            if string.lower(player.Name):find(searchText) then
+                table.insert(filteredPlayers, player)
+            end
+        end
+        
+        return filteredPlayers
+    end
+    
+    -- Обновление списка игроков
+    function UpdatePlayerList()
+        local searchText = SearchBox.Text
+        local players = FilterPlayers(searchText)
+        
+        for _, child in pairs(PlayersFrame:GetChildren()) do
+            if child:IsA("TextButton") then
+                child:Destroy()
+            end
+        end
+        
+        if #players == 0 then
+            local NoPlayersLabel = Instance.new("TextLabel")
+            NoPlayersLabel.Size = UDim2.new(1, 0, 0, 60)
+            NoPlayersLabel.BackgroundTransparency = 1
+            if searchText == "" then
+                NoPlayersLabel.Text = "Нет игроков на сервере"
+            else
+                NoPlayersLabel.Text = "Игроки не найдены\nпо запросу: '" .. searchText .. "'"
+            end
+            NoPlayersLabel.TextColor3 = SAUL_COLORS.Text
+            NoPlayersLabel.Font = Enum.Font.Gotham
+            NoPlayersLabel.TextSize = 14
+            NoPlayersLabel.TextWrapped = true
+            NoPlayersLabel.Parent = PlayersFrame
+        else
+            for _, player in pairs(players) do
+                local button = CreatePlayerButton(player)
+                button.Parent = PlayersFrame
+            end
+        end
+        
+        -- Обновление счетчика
+        PlayerCountLabel.Text = "Игроков найдено: " .. #players
+        
+        -- Авто-размер скролл фрейма
+        PlayersFrame.CanvasSize = UDim2.new(0, 0, 0, UIListLayout.AbsoluteContentSize.Y)
+    end
+    
+    -- Обработчик поиска
+    SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+        UpdatePlayerList()
+    end)
+    
+    -- Функционал закрытия
+    CloseButton.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+    end)
+    
+    -- Анимации для кнопки закрытия
+    CloseButton.MouseEnter:Connect(function()
+        TweenService:Create(CloseButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(220, 80, 80)
+        }):Play()
+    end)
+    
+    CloseButton.MouseLeave:Connect(function()
+        TweenService:Create(CloseButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = SAUL_COLORS.Button
+        }):Play()
+    end)
+    
+    -- Перетаскивание окна
+    local dragging = false
+    local dragInput, dragStart, startPos
+    
+    HeaderFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = MainFrame.Position
+            
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+    
+    HeaderFrame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+    
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - dragStart
+            MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+    
+    -- Автоматическое обновление при подключении/отключении игроков
+    Players.PlayerAdded:Connect(UpdatePlayerList)
+    Players.PlayerRemoving:Connect(UpdatePlayerList)
+    
+    -- Инициализация
+    ScreenGui.Parent = game.CoreGui
+    UpdatePlayerList()
+    
+    return ScreenGui
+end
+
+-- Создание команды для открытия/закрытия GUI
+local CommandService = {}
+function CommandService.ToggleTeleportGUI()
+    local gui = game.CoreGui:FindFirstChild("SaulHubTeleportGUI")
+    if gui then
+        gui:Destroy()
+    else
+        CreateTeleportGUI()
+    end
+end
+
+-- Автозапуск GUI
+CreateTeleportGUI()
+
+print("🎮 Players Teleports for Saul Hub loaded!")
+print("🔍 Search feature enabled - type to filter players")
+print("📱 GUI is now visible - drag from header to move")
