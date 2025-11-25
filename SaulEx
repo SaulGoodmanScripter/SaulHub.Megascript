@@ -1,0 +1,298 @@
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Цветовая схема
+local SAUL_COLORS = {
+    Background = Color3.fromRGB(20, 20, 30),
+    Header = Color3.fromRGB(50, 40, 70),
+    Card = Color3.fromRGB(35, 30, 50),
+    Accent = Color3.fromRGB(140, 70, 160),
+    Text = Color3.fromRGB(240, 240, 255),
+    Success = Color3.fromRGB(100, 200, 120),
+    Warning = Color3.fromRGB(255, 180, 70),
+    Error = Color3.fromRGB(255, 100, 100)
+}
+
+-- Создание UI
+local SaulUI = Instance.new("ScreenGui")
+SaulUI.Name = "SaulMobileUI"
+SaulUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+SaulUI.ResetOnSpawn = false
+
+-- Кнопка-минимизатор (изначально видна)
+local MinimizeButton = Instance.new("TextButton")
+MinimizeButton.Size = UDim2.new(0, 50, 0, 50)
+MinimizeButton.Position = UDim2.new(0, 20, 0, 20)
+MinimizeButton.BackgroundColor3 = SAUL_COLORS.Accent
+MinimizeButton.TextColor3 = SAUL_COLORS.Text
+MinimizeButton.Text = "⚡"
+MinimizeButton.Font = Enum.Font.GothamBold
+MinimizeButton.TextSize = 20
+MinimizeButton.Visible = true
+MinimizeButton.Parent = SaulUI
+
+local MinimizeCorner = Instance.new("UICorner")
+MinimizeCorner.CornerRadius = UDim.new(1, 0)
+MinimizeCorner.Parent = MinimizeButton
+
+-- Главный контейнер (изначально скрыт)
+local MainContainer = Instance.new("Frame")
+MainContainer.Size = UDim2.new(0, 320, 0, 400)
+MainContainer.Position = UDim2.new(0.5, -160, 0.5, -200)
+MainContainer.BackgroundColor3 = SAUL_COLORS.Background
+MainContainer.BorderSizePixel = 0
+MainContainer.ClipsDescendants = true
+MainContainer.Visible = false
+MainContainer.Parent = SaulUI
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 15)
+UICorner.Parent = MainContainer
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = SAUL_COLORS.Accent
+UIStroke.Thickness = 2
+UIStroke.Parent = MainContainer
+
+-- Верхняя панель
+local Header = Instance.new("Frame")
+Header.Size = UDim2.new(1, 0, 0, 50)
+Header.BackgroundColor3 = SAUL_COLORS.Header
+Header.BorderSizePixel = 0
+Header.Parent = MainContainer
+
+local HeaderCorner = Instance.new("UICorner")
+HeaderCorner.CornerRadius = UDim.new(0, 15)
+HeaderCorner.Parent = Header
+
+-- Заголовок
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -80, 1, 0)
+Title.Position = UDim2.new(0, 15, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "Saul Mobile"
+Title.TextColor3 = SAUL_COLORS.Text
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 18
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = Header
+
+-- Кнопка закрытия
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Position = UDim2.new(1, -35, 0.5, -15)
+CloseButton.BackgroundColor3 = SAUL_COLORS.Card
+CloseButton.TextColor3 = SAUL_COLORS.Text
+CloseButton.Text = "×"
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.TextSize = 16
+CloseButton.Parent = Header
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(1, 0)
+CloseCorner.Parent = CloseButton
+
+-- Область ввода кода
+local CodeContainer = Instance.new("Frame")
+CodeContainer.Size = UDim2.new(1, -20, 0, 200)
+CodeContainer.Position = UDim2.new(0, 10, 0, 60)
+CodeContainer.BackgroundColor3 = SAUL_COLORS.Card
+CodeContainer.BorderSizePixel = 0
+CodeContainer.Parent = MainContainer
+
+local CodeCorner = Instance.new("UICorner")
+CodeCorner.CornerRadius = UDim.new(0, 10)
+CodeCorner.Parent = CodeContainer
+
+local CodeInput = Instance.new("TextBox")
+CodeInput.Size = UDim2.new(1, -10, 1, -10)
+CodeInput.Position = UDim2.new(0, 5, 0, 5)
+CodeInput.BackgroundTransparency = 1
+CodeInput.TextColor3 = SAUL_COLORS.Text
+CodeInput.Font = Enum.Font.RobotoMono
+CodeInput.TextSize = 12
+CodeInput.TextXAlignment = Enum.TextXAlignment.Left
+CodeInput.TextYAlignment = Enum.TextYAlignment.Top
+CodeInput.TextWrapped = true
+CodeInput.MultiLine = true
+CodeInput.ClearTextOnFocus = false
+CodeInput.PlaceholderText = "Введите скрипт...\nПример: print('Hello!')"
+CodeInput.PlaceholderColor3 = Color3.fromRGB(150, 150, 170)
+CodeInput.Text = ""
+CodeInput.Parent = CodeContainer
+
+-- Панель кнопок
+local ButtonContainer = Instance.new("Frame")
+ButtonContainer.Size = UDim2.new(1, -20, 0, 80)
+ButtonContainer.Position = UDim2.new(0, 10, 0, 270)
+ButtonContainer.BackgroundTransparency = 1
+ButtonContainer.Parent = MainContainer
+
+-- Кнопка Execute
+local ExecuteButton = Instance.new("TextButton")
+ExecuteButton.Size = UDim2.new(1, 0, 0, 35)
+ExecuteButton.Position = UDim2.new(0, 0, 0, 0)
+ExecuteButton.BackgroundColor3 = SAUL_COLORS.Success
+ExecuteButton.TextColor3 = SAUL_COLORS.Text
+ExecuteButton.Text = "🚀 ВЫПОЛНИТЬ"
+ExecuteButton.Font = Enum.Font.GothamBold
+ExecuteButton.TextSize = 14
+ExecuteButton.Parent = ButtonContainer
+
+local ExecuteCorner = Instance.new("UICorner")
+ExecuteCorner.CornerRadius = UDim.new(0, 8)
+ExecuteCorner.Parent = ExecuteButton
+
+-- Кнопка Clear
+local ClearButton = Instance.new("TextButton")
+ClearButton.Size = UDim2.new(1, 0, 0, 35)
+ClearButton.Position = UDim2.new(0, 0, 0, 40)
+ClearButton.BackgroundColor3 = SAUL_COLORS.Warning
+ClearButton.TextColor3 = SAUL_COLORS.Text
+ClearButton.Text = "🗑️ ОЧИСТИТЬ"
+ClearButton.Font = Enum.Font.GothamBold
+ClearButton.TextSize = 14
+ClearButton.Parent = ButtonContainer
+
+local ClearCorner = Instance.new("UICorner")
+ClearCorner.CornerRadius = UDim.new(0, 8)
+ClearCorner.Parent = ClearButton
+
+-- Консоль вывода
+local ConsoleContainer = Instance.new("Frame")
+ConsoleContainer.Size = UDim2.new(1, -20, 0, 50)
+ConsoleContainer.Position = UDim2.new(0, 10, 0, 210)
+ConsoleContainer.BackgroundColor3 = SAUL_COLORS.Card
+ConsoleContainer.BorderSizePixel = 0
+ConsoleContainer.Parent = MainContainer
+
+local ConsoleCorner = Instance.new("UICorner")
+ConsoleCorner.CornerRadius = UDim.new(0, 8)
+ConsoleCorner.Parent = ConsoleContainer
+
+local ConsoleLabel = Instance.new("TextLabel")
+ConsoleLabel.Size = UDim2.new(1, -10, 1, -10)
+ConsoleLabel.Position = UDim2.new(0, 5, 0, 5)
+ConsoleLabel.BackgroundTransparency = 1
+ConsoleLabel.TextColor3 = SAUL_COLORS.Success
+ConsoleLabel.Font = Enum.Font.RobotoMono
+ConsoleLabel.TextSize = 10
+ConsoleLabel.TextXAlignment = Enum.TextXAlignment.Left
+ConsoleLabel.TextYAlignment = Enum.TextYAlignment.Top
+ConsoleLabel.TextWrapped = true
+ConsoleLabel.Text = "> Готов"
+ConsoleLabel.Parent = ConsoleContainer
+
+-- Функция выполнения скрипта
+local function executeScript()
+    local scriptText = CodeInput.Text
+    if scriptText == "" then
+        ConsoleLabel.TextColor3 = SAUL_COLORS.Warning
+        ConsoleLabel.Text = "> Введите скрипт"
+        return
+    end
+    
+    ConsoleLabel.TextColor3 = SAUL_COLORS.Text
+    ConsoleLabel.Text = "> Выполнение..."
+    
+    local success, result = pcall(function()
+        -- Проверяем есть ли loadstring от эксплоита
+        if loadstring then
+            return loadstring(scriptText)()
+        else
+            -- Если нет loadstring, показываем ошибку
+            error("Loadstring не доступен. Используй скрипты без loadstring")
+        end
+    end)
+    
+    if success then
+        ConsoleLabel.TextColor3 = SAUL_COLORS.Success
+        ConsoleLabel.Text = "> ✅ Успех!"
+    else
+        ConsoleLabel.TextColor3 = SAUL_COLORS.Error
+        ConsoleLabel.Text = "> ❌ " .. tostring(result):sub(1, 30) .. "..."
+    end
+end
+    ConsoleLabel.TextColor3 = SAUL_COLORS.Text
+    ConsoleLabel.Text = "> Выполнение..."
+    
+    local success, result = pcall(function()
+        return loadstring(scriptText)()
+    end)
+    
+    if success then
+        ConsoleLabel.TextColor3 = SAUL_COLORS.Success
+        ConsoleLabel.Text = "> ✅ Успех!"
+    else
+        ConsoleLabel.TextColor3 = SAUL_COLORS.Error
+        ConsoleLabel.Text = "> ❌ " .. tostring(result):sub(1, 30) .. "..."
+    end
+end
+
+-- Очистка поля
+local function clearInput()
+    CodeInput.Text = ""
+    ConsoleLabel.TextColor3 = SAUL_COLORS.Success
+    ConsoleLabel.Text = "> Очищено"
+end
+
+-- Показать/скрыть основной UI
+local function toggleMainUI()
+    if MainContainer.Visible then
+        -- Скрываем
+        TweenService:Create(MainContainer, TweenInfo.new(0.3), {
+            Size = UDim2.new(0, 0, 0, 0),
+            Position = UDim2.new(0.5, 0, 0.5, 0)
+        }):Play()
+        wait(0.3)
+        MainContainer.Visible = false
+        MinimizeButton.Visible = true
+    else
+        -- Показываем
+        MainContainer.Visible = true
+        MainContainer.Size = UDim2.new(0, 0, 0, 0)
+        MainContainer.Position = UDim2.new(0.5, 0, 0.5, 0)
+        
+        TweenService:Create(MainContainer, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+            Size = UDim2.new(0, 320, 0, 400),
+            Position = UDim2.new(0.5, -160, 0.5, -200)
+        }):Play()
+        
+        MinimizeButton.Visible = false
+    end
+end
+
+-- Привязка событий
+ExecuteButton.MouseButton1Click:Connect(executeScript)
+ClearButton.MouseButton1Click:Connect(clearInput)
+MinimizeButton.MouseButton1Click:Connect(toggleMainUI)
+
+CloseButton.MouseButton1Click:Connect(function()
+    toggleMainUI()
+end)
+
+-- Финальная проверка и инициализация
+local function initialize()
+    -- Проверка на мобильное устройство
+    if UserInputService.TouchEnabled then
+        print("📱 Saul Mobile UI загружен для телефона")
+    else
+        print("🖥️ Saul Mobile UI загружен для ПК")
+    end
+    
+    -- Проверка что всё создалось
+    if SaulUI and MinimizeButton and MainContainer then
+        print("✅ Все элементы UI созданы успешно")
+        SaulUI.Parent = game.CoreGui
+        print("🎮 Нажми на синюю кнопку ⚡ чтобы открыть")
+    else
+        warn("❌ Ошибка создания UI")
+    end
+end
+
+-- Запуск инициализации
+initialize()
+
+return SaulUI
